@@ -14,3 +14,15 @@ SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Straws")
 clock = pygame.time.Clock()
+
+# Game loop
+# (The basic frame of the loop was borrowed from GeeksForGeeks)
+running = True
+while running :
+    for event in pygame.event.get() :
+        if event.type == pygame.QUIT :
+            running = False
+
+# Quit game
+pygame.quit()
+sys.exit()
