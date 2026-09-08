@@ -1,12 +1,13 @@
 # STRAWS: THE GAME
 # ----------------
 # 
-# Copyright 2026 Jaron Alarcon, Ayaka Brown, Danielle Harrell
+# Copyright pending
 # 
-# someone pls finish this
+# Check the README.md file for more information about this project.
 
 # Imports and initialization
 import pygame, sys
+from pygame.locals import *    # GeeksForGeeks recommended this import for event handling
 pygame.init()
 
 # Window and in-game clock
@@ -21,7 +22,10 @@ clock = pygame.time.Clock() # Set game clock
 
 is_running = True
 while is_running :
-    # Event loop to check for quit
+    # Add background image
+    # Please import background image and add it here
+
+    # Event loop to check for game quit
     for event in pygame.event.get() :
         if event.type == pygame.QUIT :
             is_running = False
