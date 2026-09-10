@@ -22,6 +22,8 @@ clock = pygame.time.Clock() # Set game clock
 # Terrain assets
 
 # Player character assets
+player = pygame.Rect(0, 800, 25, 25)
+PLAYER_SPEED = 3
 
 # Enemy character assets
 
@@ -45,25 +47,31 @@ while is_running :
     # Key event tracing
     # (AI taught us that all key presses must come outside of the event loop)
     keys = pygame.key.get_pressed()
+
     if keys[pygame.K_LEFT] :
-        print("walk backwards") # Filler code. please change
+        print("walk backwards") # Filler code; please change
+        player.x -= PLAYER_SPEED
     
     if keys[pygame.K_RIGHT] :
         print("walk forwards") # Filler code; please change
+        player.x += PLAYER_SPEED
 
     # If the space bar is pressed
     if keys[pygame.K_SPACE] :
         # Make the character jump
         print("jump") # Filler code; please change
+        player.y += PLAYER_SPEED
+
+    # Player movement
+    player.clamp_ip(screen.get_rect())
+    screen.fill((40, 40, 40))
+    pygame.draw.rect(screen, (255, 255, 255), player)
 
     # Update the entire screen
     pygame.display.flip()
 
     # Update the game clock
     clock.tick(30)
-
-    # Player movement
-    # Add player movements here!
 
 # Quit game
 pygame.quit()
