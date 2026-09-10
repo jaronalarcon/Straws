@@ -7,7 +7,7 @@
 
 # Imports and initialization
 import pygame, sys
-from pygame.locals import *    # GeeksForGeeks recommended this import for event handling
+from json import load
 pygame.init()
 
 # Window and in-game clock
@@ -17,12 +17,23 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # Create window
 pygame.display.set_caption("Straws") # Title of window
 clock = pygame.time.Clock() # Set game clock
 
+# Background assets
+
+# Terrain assets
+
+# Player character assets
+
+# Enemy character assets
+
+# Item/collectible assets
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------
+
 # Game loop
 # (Basic frame of loop, event handling logic were borrowed from GeeksForGeeks)
-
 is_running = True
 while is_running :
-    # Add background image
+    # Add background image(s)
     # Please import background image and add it here
 
     # Event loop to check for game quit
@@ -50,6 +61,9 @@ while is_running :
 
     # Update the game clock
     clock.tick(60)
+
+    # Player movement
+    # Add player movements here!
 
 # Quit game
 pygame.quit()
