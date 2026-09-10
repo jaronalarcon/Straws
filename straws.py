@@ -60,7 +60,7 @@ while is_running :
     pygame.display.flip()
 
     # Update the game clock
-    clock.tick(60)
+    clock.tick(30)
 
     # Player movement
     # Add player movements here!
