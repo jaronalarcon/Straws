@@ -22,8 +22,67 @@ clock = pygame.time.Clock() # Set game clock
 # Terrain assets
 
 # Player character assets
-player = pygame.Rect(0, 800, 25, 25)
-PLAYER_SPEED = 3
+class Player :
+    # We took most of this class's design from AI
+    # because we weren't sure how to change the player
+    # character's vertical position to simulate jumping.
+    
+    def __init__(self) :
+        # Character dimensions
+        self.width = 25
+        self.height = 25
+        self.body = pygame.Rect(50, SCREEN_HEIGHT - self.height - 50, self.width, self.height) # Must change with player assets!
+
+        # Movement speed
+        self.speed = 5
+        self.jump_height = -10
+
+        # Physics variables
+        self.velocity_y = 0
+        self.gravity = 0.4
+        self.is_jumping = False
+
+        # Floor
+        self.floor = SCREEN_HEIGHT - self.height - 50
+
+    def move(self) :
+        # (AI taught us that all key presses must come outside of the event loop)
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LEFT] :
+            print("walk backwards") # Filler code; please remove when done
+            self.body.x -= player.speed
+        
+        if keys[pygame.K_RIGHT] :
+            print("walk forwards") # Filler code; please remove when done
+            self.body.x += player.speed
+
+    def jump(self) :
+        if not self.is_jumping :
+            self.velocity_y = self.jump_height
+            self.is_jumping = True
+
+    def update(self) :
+        # Apply gravity to the vertical velocity
+        self.velocity_y += self.gravity
+        self.body.y += self.velocity_y
+
+        # Floor collision check
+        if self.body.y >= self.floor :
+            self.body.y = self.floor
+            self.velocity_y = 0
+            self.is_jumping = False
+
+        # Keep player within screen bounds horizontally
+        if self.body.left < 0 :
+            self.body.left = 0
+        if self.body.right > SCREEN_WIDTH :
+            self.body.right = SCREEN_WIDTH
+
+    def draw(self, surface) :
+        pygame.draw.rect(surface, (255, 255, 255), self.body) # Update for player assets!
+
+player = Player()
 
 # Enemy character assets
 
@@ -38,40 +97,30 @@ while is_running :
     # Add background image(s)
     # Please import background image and add it here
 
-    # Event loop to check for game quit
+    # General event loop
     for event in pygame.event.get() :
         if event.type == pygame.QUIT :
             is_running = False
             break
-    
-    # Key event tracing
-    # (AI taught us that all key presses must come outside of the event loop)
-    keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT] :
-        print("walk backwards") # Filler code; please change
-        player.x -= PLAYER_SPEED
-    
-    if keys[pygame.K_RIGHT] :
-        print("walk forwards") # Filler code; please change
-        player.x += PLAYER_SPEED
-
-    # If the space bar is pressed
-    if keys[pygame.K_SPACE] :
-        # Make the character jump
-        print("jump") # Filler code; please change
-        player.y += PLAYER_SPEED
+        # Check if the 
+        if event.type == pygame.KEYDOWN :
+            if event.key == pygame.K_SPACE :
+                print("jump")
+                player.jump()
+                player.update()
 
     # Player movement
-    player.clamp_ip(screen.get_rect())
+    player.move()
+    player.update()
     screen.fill((40, 40, 40))
-    pygame.draw.rect(screen, (255, 255, 255), player)
+    player.draw(screen)
 
     # Update the entire screen
     pygame.display.flip()
 
     # Update the game clock
-    clock.tick(30)
+    clock.tick(50)
 
 # Quit game
 pygame.quit()
