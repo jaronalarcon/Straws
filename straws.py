@@ -49,11 +49,11 @@ class Player :
         # (AI taught us that all key presses must come outside of the event loop)
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT] :
+        if keys[pygame.K_LEFT] or keys[pygame.K_a] :
             print("walk backwards") # Filler code; please remove when done
             self.body.x -= player.speed
         
-        if keys[pygame.K_RIGHT] :
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d] :
             print("walk forwards") # Filler code; please remove when done
             self.body.x += player.speed
 
@@ -85,6 +85,31 @@ class Player :
 player = Player()
 
 # Enemy character assets
+class Enemy :
+    def __init__(self) :
+        # Character dimensions
+        self.width = 25
+        self.height = 25
+        self.body = pygame.Rect(SCREEN_WIDTH - 75, SCREEN_HEIGHT - self.height - 50, self.width, self.height) # Must change with enemy assets!
+
+        # Movement speed
+        self.speed = 3
+
+    def move(self) :
+        # Move left across the screen
+        self.body.x -= self.speed
+
+    def update(self, player : Player) :
+        # If the enemy goes off-screen, reset its position to the right side of the screen
+        if self.body.right < 0 :
+            self.body.left = SCREEN_WIDTH
+        if self.body.x == player.x and self.body.y == player.y :
+            print("enemy collided with player") # Filler code; please remove when done
+
+    def draw(self, surface) :
+        pygame.draw.rect(surface, (255, 0, 0), self.body) # Update for enemy assets!
+
+enemy = Enemy()
 
 # Item/collectible assets
 
@@ -113,6 +138,7 @@ while is_running :
     # Player movement
     player.move()
     player.update()
+    enemy.update(player)
     screen.fill((40, 40, 40))
     player.draw(screen)
 
