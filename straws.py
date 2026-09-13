@@ -8,6 +8,7 @@
 # Imports and initialization
 import pygame, sys
 from json import load
+from random import SystemRandom # Just for fun
 pygame.init()
 
 # Window and in-game clock
@@ -27,11 +28,11 @@ class Player :
     # because we weren't sure how to change the player
     # character's vertical position to simulate jumping.
     
-    def __init__(self) :
+    def __init__(self, x = 50, y = SCREEN_HEIGHT - 75) :
         # Character dimensions
         self.width = 25
         self.height = 25
-        self.body = pygame.Rect(50, SCREEN_HEIGHT - self.height - 50, self.width, self.height) # Must change with player assets!
+        self.body = pygame.Rect(x, y, self.width, self.height) # Must change with player assets!
 
         # Movement speed
         self.speed = 5
@@ -100,11 +101,16 @@ class Enemy :
         self.body.x -= self.speed
 
     def update(self, player : Player) :
+        """ IMPORTANT: The enemy's height is defined by the top of its body. """
         # If the enemy goes off-screen, reset its position to the right side of the screen
         if self.body.right < 0 :
             self.body.left = SCREEN_WIDTH
-        if self.body.x == player.x and self.body.y == player.y :
-            print("enemy collided with player") # Filler code; please remove when done
+        if abs(self.body.x - player.body.x) <= self.width and abs(self.body.y - player.body.y) <= self.height :
+            if SystemRandom().randint(0, 99) == 0 :
+                print("NYEH HEH HEH!")
+            else :
+                print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just like the others. Was it ever an escape, or was it delaying the inevitable?")
+            pygame.quit(); sys.exit()
 
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 0, 0), self.body) # Update for enemy assets!
@@ -128,7 +134,7 @@ while is_running :
             is_running = False
             break
 
-        # Check if the 
+        # Jump event
         if event.type == pygame.KEYDOWN :
             if event.key == pygame.K_SPACE :
                 print("jump")
@@ -138,9 +144,11 @@ while is_running :
     # Player movement
     player.move()
     player.update()
+    enemy.move()
     enemy.update(player)
     screen.fill((40, 40, 40))
     player.draw(screen)
+    enemy.draw(screen)
 
     # Update the entire screen
     pygame.display.flip()
