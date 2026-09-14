@@ -18,23 +18,39 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # Create window
 pygame.display.set_caption("Straws") # Title of window
 clock = pygame.time.Clock() # Set game clock
 
+# Ground coordinates
+GROUND_X = 50
+GROUND_Y = 700
+
 # Background assets
 
 # Terrain assets
 
 # Player character assets
-class Player :
+class Player(pygame.sprite.Sprite) :
     # We took most of this class's design from AI
     # because we weren't sure how to change the player
     # character's vertical position to simulate jumping.
     
-    def __init__(self, x = 50, y = SCREEN_HEIGHT - 75) :
-        # Character dimensions
-        self.width = 25
-        self.height = 25
-        self.body = pygame.Rect(x, y, self.width, self.height) # Must change with player assets!
+    def __init__(self) :
+        # Call the parent class constructor
+        pygame.sprite.Sprite.__init__(self)
 
-        # Movement speed
+        # Load image assets for player character
+        self.image = pygame.image.load("handsome-young-man-in-suit-standing-with-hands-in-pockets-over-isolated-on-transparent-background-png.png").convert_alpha() # Please change with player assets!
+
+        # Use pygame.transform.scale() to resize the image if necessary
+        self.width = 15
+        self.height = 30
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
+        # Get the rectangle of the image for collision detection
+        self.rect = self.image.get_rect()
+
+        # Place the player character at the bottom of the screen
+        self.rect.center = (GROUND_X, GROUND_Y)
+
+        # Movement speed and jump height
         self.speed = 5
         self.jump_height = -10
 
@@ -44,19 +60,17 @@ class Player :
         self.is_jumping = False
 
         # Floor
-        self.floor = SCREEN_HEIGHT - self.height - 50
+        self.floor = GROUND_Y - self.height
 
     def move(self) :
         # (AI taught us that all key presses must come outside of the event loop)
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT] or keys[pygame.K_a] :
-            print("walk backwards") # Filler code; please remove when done
-            self.body.x -= player.speed
+            self.rect.x -= player.speed
         
         if keys[pygame.K_RIGHT] or keys[pygame.K_d] :
-            print("walk forwards") # Filler code; please remove when done
-            self.body.x += player.speed
+            self.rect.x += player.speed
 
     def jump(self) :
         if not self.is_jumping :
@@ -66,32 +80,33 @@ class Player :
     def update(self) :
         # Apply gravity to the vertical velocity
         self.velocity_y += self.gravity
-        self.body.y += self.velocity_y
+        self.rect.y += self.velocity_y
 
         # Floor collision check
-        if self.body.y >= self.floor :
-            self.body.y = self.floor
+        if self.rect.y >= self.floor :
+            self.rect.y = self.floor
             self.velocity_y = 0
             self.is_jumping = False
 
         # Keep player within screen bounds horizontally
-        if self.body.left < 0 :
-            self.body.left = 0
-        if self.body.right > SCREEN_WIDTH :
-            self.body.right = SCREEN_WIDTH
+        if self.rect.left < 0 :
+            self.rect.left = 0
+        if self.rect.right > SCREEN_WIDTH :
+            self.rect.right = SCREEN_WIDTH
 
     def draw(self, surface) :
-        pygame.draw.rect(surface, (255, 255, 255), self.body) # Update for player assets!
+        pygame.draw.rect(surface, (255, 255, 255), self.rect) # Update for player assets!
 
 player = Player()
+#player_group = pygame.sprite.GroupSingle(player)
 
 # Enemy character assets
-class Enemy :
+class Enemy() :
     def __init__(self) :
         # Character dimensions
         self.width = 25
         self.height = 25
-        self.body = pygame.Rect(SCREEN_WIDTH - 75, SCREEN_HEIGHT - self.height - 50, self.width, self.height) # Must change with enemy assets!
+        self.body = pygame.Rect(GROUND_X + 500, GROUND_Y - self.height, self.width, self.height) # Must change with enemy assets!
 
         # Movement speed
         self.speed = 3
@@ -105,12 +120,14 @@ class Enemy :
         # If the enemy goes off-screen, reset its position to the right side of the screen
         if self.body.right < 0 :
             self.body.left = SCREEN_WIDTH
-        if abs(self.body.x - player.body.x) <= self.width and abs(self.body.y - player.body.y) <= self.height :
-            if SystemRandom().randint(0, 99) == 0 :
-                print("NYEH HEH HEH!")
-            else :
-                print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just like the others. Was it ever an escape, or was it delaying the inevitable?")
+        if abs(self.body.x - player.rect.x) <= self.width and player.rect.y + player.height > self.body.y and player.rect.y + player.height <= self.body.y + self.height :
+            print("NYEH HEH HEH!") if SystemRandom().randint(0, 99) == 0 else print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just like the others. Was it ever an escape, or was it delaying the inevitable?") # Easter egg
             pygame.quit(); sys.exit()
+
+    def die(self, player : Player) :
+        if player.self.y == self.body.y and abs(player.rect.x - self.body.x) <= self.width :
+            print("enemy killed")
+
 
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 0, 0), self.body) # Update for enemy assets!
@@ -137,7 +154,6 @@ while is_running :
         # Jump event
         if event.type == pygame.KEYDOWN :
             if event.key == pygame.K_SPACE :
-                print("jump")
                 player.jump()
                 player.update()
 
