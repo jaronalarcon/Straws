@@ -39,16 +39,13 @@ class Player(pygame.sprite.Sprite) :
         # Load image assets for player character
         self.image = pygame.image.load("handsome-young-man-in-suit-standing-with-hands-in-pockets-over-isolated-on-transparent-background-png.png").convert_alpha() # Please change with player assets!
 
-        # Use pygame.transform.scale() to resize the image if necessary
-        self.width = 15
-        self.height = 30
+        # Resize the image
+        self.width = 50
+        self.height = 1.5 * self.width
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
         # Get the rectangle of the image for collision detection
         self.rect = self.image.get_rect()
-
-        # Place the player character at the bottom of the screen
-        self.rect.center = (GROUND_X, GROUND_Y)
 
         # Movement speed and jump height
         self.speed = 5
@@ -62,8 +59,10 @@ class Player(pygame.sprite.Sprite) :
         # Floor
         self.floor = GROUND_Y - self.height
 
+        # Place the player character at the bottom of the screen
+        self.rect.center = (GROUND_X, self.floor)
+
     def move(self) :
-        # (AI taught us that all key presses must come outside of the event loop)
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT] or keys[pygame.K_a] :
@@ -78,6 +77,9 @@ class Player(pygame.sprite.Sprite) :
             self.is_jumping = True
 
     def update(self) :
+        # Allow the player to move
+        self.move()
+
         # Apply gravity to the vertical velocity
         self.velocity_y += self.gravity
         self.rect.y += self.velocity_y
@@ -98,41 +100,59 @@ class Player(pygame.sprite.Sprite) :
         pygame.draw.rect(surface, (255, 255, 255), self.rect) # Update for player assets!
 
 player = Player()
-#player_group = pygame.sprite.GroupSingle(player)
+player_group = pygame.sprite.GroupSingle(player)
 
 # Enemy character assets
-class Enemy() :
+class Enemy(pygame.sprite.Sprite) :
     def __init__(self) :
-        # Character dimensions
-        self.width = 25
-        self.height = 25
-        self.body = pygame.Rect(GROUND_X + 500, GROUND_Y - self.height, self.width, self.height) # Must change with enemy assets!
+        # Call the parent class constructor
+        pygame.sprite.Sprite.__init__(self)
+
+        # Load image assets for enemy character
+        self.image = pygame.image.load("pngtree-full-black-trash-bag-png-image_14333046.png").convert_alpha() # Please change with enemy assets!
+
+        # Resize the image
+        self.width = 50
+        self.height = 50
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
+        # Initialize rectangle collision
+        self.rect = self.image.get_rect()
 
         # Movement speed
         self.speed = 3
 
+        # Floor
+        self.floor = GROUND_Y - self.height
+
+        # Set the center to the ground
+        self.rect.center = (GROUND_X + 250, self.floor)
+
     def move(self) :
         # Move left across the screen
-        self.body.x -= self.speed
+        self.rect.x -= self.speed
 
     def update(self, player : Player) :
+        # Make the enemy move
+        self.move()
+
         """ IMPORTANT: The enemy's height is defined by the top of its body. """
-        # If the enemy goes off-screen, reset its position to the right side of the screen
-        if self.body.right < 0 :
-            self.body.left = SCREEN_WIDTH
-        if abs(self.body.x - player.rect.x) <= self.width and player.rect.y + player.height > self.body.y and player.rect.y + player.height <= self.body.y + self.height :
+        # If the enemy goes off-screen, invert the enemy's movement
+        if self.rect.left < 0 or self.rect.right > SCREEN_WIDTH :
+            self.speed *= -1
+        if abs(self.rect.x - player.rect.x) <= self.width and player.rect.y + player.height > self.rect.y and player.rect.y + player.height <= self.rect.y + self.height :
             print("NYEH HEH HEH!") if SystemRandom().randint(0, 99) == 0 else print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just like the others. Was it ever an escape, or was it delaying the inevitable?") # Easter egg
             pygame.quit(); sys.exit()
 
     def die(self, player : Player) :
-        if player.self.y == self.body.y and abs(player.rect.x - self.body.x) <= self.width :
+        if player.rect.y == self.rect.y and abs(player.rect.x - self.rect.x) <= self.width :
             print("enemy killed")
 
-
     def draw(self, surface) :
-        pygame.draw.rect(surface, (255, 0, 0), self.body) # Update for enemy assets!
+        pygame.draw.rect(surface, (255, 0, 0), self.rect) # Update for enemy assets!
 
 enemy = Enemy()
+enemy_group = pygame.sprite.GroupSingle(enemy)
 
 # Item/collectible assets
 
@@ -158,13 +178,11 @@ while is_running :
                 player.update()
 
     # Player movement
-    player.move()
-    player.update()
-    enemy.move()
-    enemy.update(player)
+    player_group.update()
+    enemy_group.update(player)
     screen.fill((40, 40, 40))
-    player.draw(screen)
-    enemy.draw(screen)
+    player_group.draw(screen)
+    enemy_group.draw(screen)
 
     # Update the entire screen
     pygame.display.flip()
