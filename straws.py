@@ -189,6 +189,22 @@ class Enemy(pygame.sprite.Sprite) :
 enemy = Enemy()
 enemy_group = pygame.sprite.GroupSingle(enemy)
 
+# Camera assets
+class Camera :
+    def __init__(self) :
+        self.width = SCREEN_WIDTH
+        self.height = SCREEN_HEIGHT
+        self.x = 0
+        self.y = 0
+
+    def update(self, target : Player) :
+        self.x = target.rect.centerx - self.width // 2
+
+    def apply(self, entity) :
+        return entity.rect.move(-self.x, -self.y)
+
+camera = Camera()
+
 # Item/collectible assets
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -197,6 +213,8 @@ enemy_group = pygame.sprite.GroupSingle(enemy)
 # (Basic frame of loop, event handling logic were borrowed from GeeksForGeeks)
 is_running = True
 while is_running :
+    sprites = [ground, player, enemy]
+
     # Add background image(s)
     # Please import background image and add it here
 
@@ -219,6 +237,12 @@ while is_running :
     ground_group.draw(screen)
     player_group.draw(screen)
     enemy_group.draw(screen)
+
+    # Update camera
+    camera.update(player)
+    screen.fill((40, 40, 40))
+    for sprite in sprites :
+        screen.blit(sprite.image, camera.apply(sprite))
 
     # Update the entire screen
     pygame.display.flip()
