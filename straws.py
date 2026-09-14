@@ -25,6 +25,30 @@ GROUND_Y = 700
 # Background assets
 
 # Terrain assets
+class Ground(pygame.sprite.Sprite) :
+    def __init__(self) :
+        # Call the parent class constructor
+        pygame.sprite.Sprite.__init__(self)
+
+        # Load image assets for ground
+        self.image = pygame.image.load("pngtree-illustration-of-ground-png-image_5027670.png").convert_alpha() # Change with ground assets!
+
+        # Resize the image
+        self.width = SCREEN_WIDTH
+        self.height = 40
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
+        # Get the rectangle of the image for collision detection
+        self.rect = self.image.get_rect()
+
+        # Place the ground at the bottom of the screen
+        self.rect.center = (SCREEN_WIDTH // 2, GROUND_Y)
+
+    def draw(self, surface) :
+        pygame.draw.rect(surface, (255, 255, 255), self.rect)
+
+ground = Ground()
+ground_group = pygame.sprite.GroupSingle(ground)
 
 # Player character assets
 class Player(pygame.sprite.Sprite) :
@@ -122,6 +146,10 @@ class Enemy(pygame.sprite.Sprite) :
         # Movement speed
         self.speed = 3
 
+        # Physics variables
+        self.velocity_y = 0
+        self.gravity = 0.4
+
         # Floor
         self.floor = GROUND_Y - self.height
 
@@ -135,6 +163,13 @@ class Enemy(pygame.sprite.Sprite) :
     def update(self, player : Player) :
         # Make the enemy move
         self.move()
+
+        # Vertical adjustment
+        self.velocity_y += self.gravity
+        self.rect.y += self.velocity_y
+        if self.rect.y >= self.floor :
+            self.rect.y = self.floor
+            self.velocity_y = 0
 
         """ IMPORTANT: The enemy's height is defined by the top of its body. """
         # If the enemy goes off-screen, invert the enemy's movement
@@ -181,6 +216,7 @@ while is_running :
     player_group.update()
     enemy_group.update(player)
     screen.fill((40, 40, 40))
+    ground_group.draw(screen)
     player_group.draw(screen)
     enemy_group.draw(screen)
 
