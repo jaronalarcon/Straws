@@ -13,3 +13,5 @@ I could've blinked; I could've died. That time was all a blur. But the next thin
 ----------
 
 *Straws* is a two-dimensional (2D) platformer that tells the unfortunate story of a world overrun by the evils of garbage and the fortunate story of a shrewd, compassionate player that works to restore its vitality—you. Set in the near future of a distant universe that is very similar to ours but has been bewitched by a malicious force, you must traverse the desolate and unforgiving terrain, survive hordes of bloodthirsty monsters, and uncover the secrets that consumed the world you were transported to—the same secrets that could consume your own.
+
+Each level of *Straws* is based on a location in Hawaii to curate a collection of observations of the effects—both existing and potential—of litter on Hawaii's various landscapes and environments, from the dense forests of Mount Wai‘ale‘ale on the island of Kaua‘i to the urbanized city of Honolulu on the island of O‘ahu.
