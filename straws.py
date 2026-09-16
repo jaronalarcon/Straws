@@ -35,7 +35,7 @@ class Ground(pygame.sprite.Sprite) :
 
         # Resize the image
         self.width = SCREEN_WIDTH
-        self.height = 40
+        self.height = 100
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
         # Get the rectangle of the image for collision detection
@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite) :
     # because we weren't sure how to change the player
     # character's vertical position to simulate jumping.
     
-    def __init__(self) :
+    def __init__(self, floor : Ground) :
         # Call the parent class constructor
         pygame.sprite.Sprite.__init__(self)
 
@@ -71,64 +71,89 @@ class Player(pygame.sprite.Sprite) :
         # Get the rectangle of the image for collision detection
         self.rect = self.image.get_rect()
 
-        # Movement speed and jump height
-        self.speed = 5
+        # Movement speed and jump mechanics
+        self.move_speed = 5
         self.jump_height = -10
-
-        # Physics variables
-        self.velocity_y = 0
-        self.gravity = 0.4
-        self.is_jumping = False
+        self.is_on_ground = False
 
         # Floor
-        self.floor = GROUND_Y - self.height
+        self.floor = floor.rect.top
 
-        # Place the player character at the bottom of the screen
-        self.rect.center = (GROUND_X, self.floor)
+        # Physics variables
+        self.position = pygame.math.Vector2((50, self.floor))
+        self.velocity = pygame.math.Vector2()
+        self.gravity = pygame.math.Vector2((0, 0.8))
 
     def move(self) :
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT] or keys[pygame.K_a] :
-            self.rect.x -= player.speed
+            self.velocity.x = -self.move_speed
         
         if keys[pygame.K_RIGHT] or keys[pygame.K_d] :
-            self.rect.x += player.speed
+            self.velocity.x = self.move_speed
 
     def jump(self) :
-        if not self.is_jumping :
-            self.velocity_y = self.jump_height
-            self.is_jumping = True
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_SPACE] and self.is_on_ground :
+            self.velocity.y = self.jump_height
+            self.is_on_ground = False
+
+    def check_collision_x(self, grounds) :
+        for ground in grounds :
+            if self.rect.colliderect(ground) :
+                if self.velocity.x > 0 :
+                    self.rect.right = ground.rect.left
+                elif self.velocity.x < 0 :
+                    self.rect.left = ground.rect.right
+                self.position.x = self.rect.x
+
+    def check_collision_y(self, grounds) :
+        self.is_on_ground = False
+        for ground in grounds :
+            if self.rect.colliderect(ground) :
+                if self.velocity.y > 0 :
+                    self.rect.bottom = ground.rect.top
+                    self.velocity.y = 0
+                    self.is_on_ground = True
+                elif self.velocity.y < 0 :
+                    self.rect.top = ground.rect.bottom
+                    self.velocity.y = 0
+                self.position.y = self.rect.y
+
+    def move_collide(self, grounds) :
+        self.position.x += self.velocity.x
+        self.rect.x = round(self.position.x)
+        self.check_collision_x(grounds)
+
+        self.position.y += self.velocity.y
+        self.rect.y = round(self.position.y)
+        self.check_collision_y(grounds)
 
     def update(self) :
         # Allow the player to move
         self.move()
+        self.move_collide(ground_group)
 
         # Apply gravity to the vertical velocity
-        self.velocity_y += self.gravity
-        self.rect.y += self.velocity_y
+        self.velocity += self.gravity
+        self.position += self.velocity
 
-        # Floor collision check
-        if self.rect.y >= self.floor :
-            self.rect.y = self.floor
-            self.velocity_y = 0
-            self.is_jumping = False
-
-        # Keep player within screen bounds horizontally
-        if self.rect.left < 0 :
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH :
-            self.rect.right = SCREEN_WIDTH
+        # Death collision
+        if self.rect.bottom >= 1000 :
+            print("You fell. Into a hole. How sad.")
+            pygame.quit(); sys.exit()
 
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 255, 255), self.rect) # Update for player assets!
 
-player = Player()
+player = Player(ground)
 player_group = pygame.sprite.GroupSingle(player)
 
 # Enemy character assets
 class Enemy(pygame.sprite.Sprite) :
-    def __init__(self) :
+    def __init__(self, floor : Ground) :
         # Call the parent class constructor
         pygame.sprite.Sprite.__init__(self)
 
@@ -144,21 +169,21 @@ class Enemy(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect()
 
         # Movement speed
-        self.speed = 3
+        self.move_speed = 3
 
         # Physics variables
         self.velocity_y = 0
         self.gravity = 0.4
 
         # Floor
-        self.floor = GROUND_Y - self.height
+        self.floor = floor.rect.y
 
         # Set the center to the ground
         self.rect.center = (GROUND_X + 250, self.floor)
 
     def move(self) :
         # Move left across the screen
-        self.rect.x -= self.speed
+        self.rect.x -= self.move_speed
 
     def update(self, player : Player) :
         # Make the enemy move
@@ -174,7 +199,7 @@ class Enemy(pygame.sprite.Sprite) :
         """ IMPORTANT: The enemy's height is defined by the top of its body. """
         # If the enemy goes off-screen, invert the enemy's movement
         if self.rect.left < 0 or self.rect.right > SCREEN_WIDTH :
-            self.speed *= -1
+            self.move_speed *= -1
         if abs(self.rect.x - player.rect.x) <= self.width and player.rect.y + player.height > self.rect.y and player.rect.y + player.height <= self.rect.y + self.height :
             print("NYEH HEH HEH!") if SystemRandom().randint(0, 99) == 0 else print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just like the others. Was it ever an escape, or was it delaying the inevitable?") # Easter egg
             pygame.quit(); sys.exit()
@@ -186,7 +211,7 @@ class Enemy(pygame.sprite.Sprite) :
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 0, 0), self.rect) # Update for enemy assets!
 
-enemy = Enemy()
+enemy = Enemy(ground)
 enemy_group = pygame.sprite.GroupSingle(enemy)
 
 # Camera assets
@@ -198,7 +223,8 @@ class Camera :
         self.y = 0
 
     def update(self, target : Player) :
-        self.x = target.rect.centerx - self.width // 2
+        if target.rect.x >= SCREEN_WIDTH // 2 :
+            self.x = target.rect.centerx - self.width // 2
 
     def apply(self, entity) :
         return entity.rect.move(-self.x, -self.y)
