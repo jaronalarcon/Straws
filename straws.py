@@ -72,7 +72,7 @@ class Player(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect()
 
         # Movement speed and jump mechanics
-        self.move_speed = 5
+        self.move_speed = 2.5
         self.jump_height = -10
         self.is_on_ground = False
 
