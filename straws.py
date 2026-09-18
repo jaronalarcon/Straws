@@ -54,12 +54,12 @@ ground_group = pygame.sprite.GroupSingle(ground)
 
 # Pygame rect documentation
 
+# .x
+# .y
 # .top
 # .bottom
 # .left
 # .right
-# .x
-# .y
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -91,19 +91,43 @@ class Character(pygame.sprite.Sprite) :
         self.floor = floor.rect.top
 
         # Physics variables
-        self.position = pygame.math.Vector2((starting_x, self.floor))
-        self.velocity = pygame.math.Vector2((0, 0))
+        self.position = pygame.math.Vector2((int, self.floor))
+        self.velocity = pygame.math.Vector2()
         self.gravity = pygame.math.Vector2((0, 0.8))
 
 # Player character assets
-class Player(Character) :
+class Player(pygame.sprite.Sprite) :
     # We took most of this class's design from AI
     # because we weren't sure how to change the player
     # character's vertical position to simulate jumping.
     
-    def __init__(self) :
+    def __init__(self, floor : Ground) :
         # Call the parent class constructor
-        super().__init__("handsome-young-man-in-suit-standing-with-hands-in-pockets-over-isolated-on-transparent-background-png.png", 50, 75, 2.5, -10, ground, 50)
+        pygame.sprite.Sprite.__init__(self)
+
+        # Load image assets for player character
+        self.image = pygame.image.load("handsome-young-man-in-suit-standing-with-hands-in-pockets-over-isolated-on-transparent-background-png.png").convert_alpha() # Please change with player assets!
+
+        # Resize the image
+        self.width = 50
+        self.height = 1.5 * self.width
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
+        # Get the rectangle of the image for collision detection
+        self.rect = self.image.get_rect()
+
+        # Movement speed and jump mechanics
+        self.move_speed = 2.5
+        self.jump_height = -10
+        self.is_on_ground = False
+
+        # Floor
+        self.floor = floor.rect.top
+
+        # Physics variables
+        self.position = pygame.math.Vector2((50, self.floor))
+        self.velocity = pygame.math.Vector2()
+        self.gravity = pygame.math.Vector2((0, 0.8))
 
     def move(self) :
         # Get all keys' statuses
