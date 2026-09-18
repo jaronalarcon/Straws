@@ -50,73 +50,118 @@ class Ground(pygame.sprite.Sprite) :
 ground = Ground()
 ground_group = pygame.sprite.GroupSingle(ground)
 
+# ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Pygame rect documentation
+
+# .top
+# .bottom
+# .left
+# .right
+# .x
+# .y
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Character superclass
+class Character(pygame.sprite.Sprite) :
+    def __init__(self, image : str, width : int, height : int,
+                 move_speed : int | float, jump_height : int | float, floor : Ground,
+                 starting_x : int) :
+        # Call the parent class constructor
+        super().__init__(self)
+
+        # Load image assets
+        self.image = pygame.image.load(image).convert_alpha()
+
+        # Resize the image
+        self.width = width
+        self.height = height
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
+        # Generate the collision shape of the image
+        self.rect = self.image.get_rect()
+
+        # Movement speed and jump mechanics
+        self.move_speed = move_speed
+        self.jump_height = jump_height
+        self.is_on_ground = False
+
+        # Calculate character floor
+        self.floor = floor.rect.top
+
+        # Physics variables
+        self.position = pygame.math.Vector2((starting_x, self.floor))
+        self.velocity = pygame.math.Vector2((0, 0))
+        self.gravity = pygame.math.Vector2((0, 0.8))
+
 # Player character assets
-class Player(pygame.sprite.Sprite) :
+class Player(Character) :
     # We took most of this class's design from AI
     # because we weren't sure how to change the player
     # character's vertical position to simulate jumping.
     
-    def __init__(self, floor : Ground) :
+    def __init__(self) :
         # Call the parent class constructor
-        pygame.sprite.Sprite.__init__(self)
-
-        # Load image assets for player character
-        self.image = pygame.image.load("handsome-young-man-in-suit-standing-with-hands-in-pockets-over-isolated-on-transparent-background-png.png").convert_alpha() # Please change with player assets!
-
-        # Resize the image
-        self.width = 50
-        self.height = 1.5 * self.width
-        self.image = pygame.transform.scale(self.image, (self.width, self.height))
-
-        # Get the rectangle of the image for collision detection
-        self.rect = self.image.get_rect()
-
-        # Movement speed and jump mechanics
-        self.move_speed = 2.5
-        self.jump_height = -10
-        self.is_on_ground = False
-
-        # Floor
-        self.floor = floor.rect.top
-
-        # Physics variables
-        self.position = pygame.math.Vector2((50, self.floor))
-        self.velocity = pygame.math.Vector2()
-        self.gravity = pygame.math.Vector2((0, 0.8))
+        super().__init__("handsome-young-man-in-suit-standing-with-hands-in-pockets-over-isolated-on-transparent-background-png.png", 50, 75, 2.5, -10, ground, 50)
 
     def move(self) :
+        # Get all keys' statuses
         keys = pygame.key.get_pressed()
 
+        # If the player presses the left/A key
         if keys[pygame.K_LEFT] or keys[pygame.K_a] :
+            # Move leftward
             self.velocity.x = -self.move_speed
-        
+
+        # If the player presses the right/D key
         if keys[pygame.K_RIGHT] or keys[pygame.K_d] :
+            # Move rightward
             self.velocity.x = self.move_speed
 
     def jump(self) :
+        # Get all keys' statuses
         keys = pygame.key.get_pressed()
 
+        # If the player presses the space key and is on the ground
         if keys[pygame.K_SPACE] and self.is_on_ground :
+            # Give the player upward velocity
             self.velocity.y = self.jump_height
+
+            # Flag the player as not on the ground
             self.is_on_ground = False
 
     def check_collision_x(self, grounds) :
+        # Go through each ground in the level
         for ground in grounds :
+            # If the player is touching the ground
             if self.rect.colliderect(ground) :
+                # If the player is moving right
                 if self.velocity.x > 0 :
                     self.rect.right = ground.rect.left
+
+                # If the player is moving left
                 elif self.velocity.x < 0 :
                     self.rect.left = ground.rect.right
+
+                # Adjust the player's position based on changes to x
                 self.position.x = self.rect.x
 
     def check_collision_y(self, grounds) :
+        # Assume the player is not on the ground
         self.is_on_ground = False
+
+        # Go through each ground in the level
         for ground in grounds :
+            # If the player is touching the ground
             if self.rect.colliderect(ground) :
+                # If the player is moving up
                 if self.velocity.y > 0 :
                     self.rect.bottom = ground.rect.top
                     self.velocity.y = 0
                     self.is_on_ground = True
+
+                # If the player is moving down
                 elif self.velocity.y < 0 :
                     self.rect.top = ground.rect.bottom
                     self.velocity.y = 0
