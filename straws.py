@@ -117,8 +117,8 @@ class Player(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect()
 
         # Movement speed and jump mechanics
-        self.move_speed = 2.5
-        self.jump_height = -10
+        self.move_speed = 6
+        self.jump_height = -20 # Negative because the y-axis is inverted in Pygame
         self.is_on_ground = False
 
         # Floor
@@ -132,6 +132,9 @@ class Player(pygame.sprite.Sprite) :
     def move(self) :
         # Get all keys' statuses
         keys = pygame.key.get_pressed()
+
+        # Cease the player's horizontal movement by default
+        self.velocity.x = 0
 
         # If the player presses the left/A key
         if keys[pygame.K_LEFT] or keys[pygame.K_a] :
@@ -156,6 +159,11 @@ class Player(pygame.sprite.Sprite) :
             self.is_on_ground = False
 
     def check_collision_x(self, grounds) :
+        # If the player is touching the left wall
+        if self.rect.left < 0 :
+            self.rect.left = 0
+            self.position.x = self.rect.x
+        
         # Go through each ground in the level
         for ground in grounds :
             # If the player is touching the ground
@@ -179,13 +187,13 @@ class Player(pygame.sprite.Sprite) :
         for ground in grounds :
             # If the player is touching the ground
             if self.rect.colliderect(ground) :
-                # If the player is moving up
+                # If the player is moving down
                 if self.velocity.y > 0 :
                     self.rect.bottom = ground.rect.top
                     self.velocity.y = 0
                     self.is_on_ground = True
 
-                # If the player is moving down
+                # If the player is moving up
                 elif self.velocity.y < 0 :
                     self.rect.top = ground.rect.bottom
                     self.velocity.y = 0
@@ -207,7 +215,6 @@ class Player(pygame.sprite.Sprite) :
 
         # Apply gravity to the vertical velocity
         self.velocity += self.gravity
-        self.position += self.velocity
 
         # Death collision
         if self.rect.bottom >= 1000 :
