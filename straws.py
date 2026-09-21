@@ -35,7 +35,7 @@ class Ground(pygame.sprite.Sprite) :
 
         # Resize the image
         self.width = SCREEN_WIDTH
-        self.height = 100
+        self.height = 50
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
         # Get the rectangle of the image for collision detection
@@ -47,8 +47,8 @@ class Ground(pygame.sprite.Sprite) :
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 255, 255), self.rect)
 
-ground = Ground(SCREEN_WIDTH // 2, 750)
-ground_group = pygame.sprite.GroupSingle(ground)
+ground1 = Ground(SCREEN_WIDTH // 2, 750)
+ground_group = pygame.sprite.GroupSingle(ground1)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ ground_group = pygame.sprite.GroupSingle(ground)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-# Character superclass
+# Character superclass (currently unused, but may be used in future updates)
 class Character(pygame.sprite.Sprite) :
     def __init__(self, image : str, width : int, height : int,
                  move_speed : int | float, jump_height : int | float, floor : Ground,
@@ -128,6 +128,11 @@ class Player(pygame.sprite.Sprite) :
         self.position = pygame.math.Vector2((50, self.floor))
         self.velocity = pygame.math.Vector2()
         self.gravity = pygame.math.Vector2((0, 0.8))
+
+        # Set the center to the ground
+        self.rect.midbottom = (50, self.floor)
+        self.position.x = self.rect.x
+        self.position.y = self.rect.y
 
     def move(self) :
         # Get all keys' statuses
@@ -197,6 +202,8 @@ class Player(pygame.sprite.Sprite) :
                 elif self.velocity.y < 0 :
                     self.rect.top = ground.rect.bottom
                     self.velocity.y = 0
+
+                # Update position
                 self.position.y = self.rect.y
 
     def move_collide(self, grounds) :
@@ -224,12 +231,12 @@ class Player(pygame.sprite.Sprite) :
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 255, 255), self.rect) # Update for player assets!
 
-player = Player(ground)
+player = Player(ground1)
 player_group = pygame.sprite.GroupSingle(player)
 
 # Enemy character assets
 class Enemy(pygame.sprite.Sprite) :
-    def __init__(self, floor : Ground) :
+    def __init__(self, floor : Ground, x : int) :
         # Call the parent class constructor
         pygame.sprite.Sprite.__init__(self)
 
@@ -244,50 +251,101 @@ class Enemy(pygame.sprite.Sprite) :
         # Initialize rectangle collision
         self.rect = self.image.get_rect()
 
-        # Movement speed
+        # Movement speed and gravity mechanics
         self.move_speed = 3
-
-        # Physics variables
-        self.velocity_y = 0
-        self.gravity = 0.4
+        self.direction = -1 # Start moving left
+        self.is_on_ground = False
 
         # Floor
-        self.floor = floor.rect.y
+        self.floor = floor.rect.top
+
+        # Physics variables
+        self.position = pygame.math.Vector2((x, self.floor))
+        self.velocity = pygame.math.Vector2()
+        self.gravity = pygame.math.Vector2((0, 0.8))
 
         # Set the center to the ground
-        self.rect.center = (GROUND_X + 250, self.floor)
+        self.rect.midbottom = (x, self.floor)
+        self.position.x = self.rect.x
+        self.position.y = self.rect.y
 
-    def move(self) :
-        # Move left across the screen
-        self.rect.x -= self.move_speed
+    def move(self) :        
+        # Set enemy's horizontal velocity
+        self.velocity.x = self.move_speed * self.direction # For future implementation of walls
+
+    def check_collision_x(self, grounds) :
+        # If the enemy is touching the left wall
+        if self.rect.left <= 0 :
+            self.rect.left = 0
+            self.position.x = self.rect.x
+            self.direction = 1 # Change direction to right
+        
+        # Go through each ground in the level
+        for ground in grounds :
+            # If the enemy is touching the ground
+            if self.rect.colliderect(ground) :
+                # If the enemy is moving right
+                if self.velocity.x > 0 :
+                    self.rect.right = ground.rect.left
+                    self.direction = -1 # Change direction to left
+
+                # If the enemy is moving left
+                elif self.velocity.x < 0 :
+                    self.rect.left = ground.rect.right
+                    self.direction = 1 # Change direction to right
+
+                # Adjust the enemy's position based on changes to x
+                self.position.x = self.rect.x
+
+    def check_collision_y(self, grounds) :
+        # Assume the enemy is not on the ground
+        self.is_on_ground = False
+
+        # Go through each ground in the level
+        for ground in grounds :
+            # If the enemy is touching the ground
+            if self.rect.colliderect(ground) :
+                # If the enemy is moving down
+                if self.velocity.y > 0 :
+                    self.rect.bottom = ground.rect.top
+                    self.velocity.y = 0
+                    self.is_on_ground = True
+
+                # If the enemy is moving up
+                elif self.velocity.y < 0 :
+                    self.rect.top = ground.rect.bottom
+                    self.velocity.y = 0
+
+                # Update position
+                self.position.y = self.rect.y
+
+    def move_collide(self, grounds) :
+        self.position.x += self.velocity.x
+        self.rect.x = round(self.position.x)
+        self.check_collision_x(grounds)
+
+        self.position.y += self.velocity.y
+        self.rect.y = round(self.position.y)
+        self.check_collision_y(grounds)
 
     def update(self, player : Player) :
         # Make the enemy move
         self.move()
+        self.move_collide(ground_group)
 
         # Vertical adjustment
-        self.velocity_y += self.gravity
-        self.rect.y += self.velocity_y
-        if self.rect.y >= self.floor :
-            self.rect.y = self.floor
-            self.velocity_y = 0
+        self.velocity += self.gravity
 
-        """ IMPORTANT: The enemy's height is defined by the top of its body. """
-        # If the enemy goes off-screen, invert the enemy's movement
-        if self.rect.left < 0 or self.rect.right > SCREEN_WIDTH :
-            self.move_speed *= -1
+        ### IMPORTANT: The enemy's height is defined by the top of its body.
+        
         if abs(self.rect.x - player.rect.x) <= self.width and player.rect.y + player.height > self.rect.y and player.rect.y + player.height <= self.rect.y + self.height :
             print("NYEH HEH HEH!") if SystemRandom().randint(0, 99) == 0 else print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just like the others. Was it ever an escape, or was it delaying the inevitable?") # Easter egg
             pygame.quit(); sys.exit()
 
-    def die(self, player : Player) :
-        if player.rect.y == self.rect.y and abs(player.rect.x - self.rect.x) <= self.width :
-            print("enemy killed")
-
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 0, 0), self.rect) # Update for enemy assets!
 
-enemy = Enemy(ground)
+enemy = Enemy(ground1, 300)
 enemy_group = pygame.sprite.GroupSingle(enemy)
 
 # Camera assets
@@ -315,7 +373,7 @@ camera = Camera()
 # (Basic frame of loop, event handling logic were borrowed from GeeksForGeeks)
 is_running = True
 while is_running :
-    sprites = [ground, player, enemy]
+    sprites = [ground1, player, enemy]
 
     # Add background image(s)
     # Please import background image and add it here
