@@ -82,9 +82,10 @@ player_group = pygame.sprite.GroupSingle(player)
 # Enemy character assets
 enemy1 = Enemy(ground1, 400)
 enemy2 = Enemy(ground2, 1600)
-enemy3 = Enemy(ground3, 1750)
-enemy4 = Enemy(ground4, 2200)
-enemy_group_1 = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4)
+enemy3 = Enemy(ground3, 1900)
+enemy4 = Enemy(ground4, 2400)
+enemy5 = Enemy(ground5, 3400)
+enemy_group_1 = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5)
 
 # Camera assets
 class Camera :
@@ -104,6 +105,43 @@ class Camera :
 camera = Camera()
 
 # Item/collectible assets
+class Collectible(pygame.sprite.Sprite) :
+    def __init__(self, x : int, y : int) :
+        # Call the parent class constructor
+        super().__init__()
+
+        # Load image assets
+        self.image = pygame.image.load("hd-soda-bottle-yellow-lid-crown-cap-png-704081695126642ekq0ebhace.png").convert_alpha()
+        self.show_image = True
+
+        # Resize the image
+        self.width = 50
+        self.height = 50
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
+        # Generate the collision shape of the image
+        self.rect = self.image.get_rect()
+
+        # Set the center to the ground
+        self.rect.midbottom = (x, y)
+
+    def get_collected(self, player : Player) :
+        # If the player's hitbox collides with this collectible's hitbox
+        if abs(self.rect.x - player.rect.x) <= self.width and player.rect.y + player.height > self.rect.y and player.rect.y + player.height <= self.rect.y + self.height :
+            self.show_image = False
+            player.score += 1
+
+    def update(self, player : Player) :
+        self.get_collected(player)
+
+    def draw(self, surface) :
+        # Show image while not collected
+        if self.show_image :
+            pygame.draw.rect(surface, (255, 0, 0), self.rect)
+
+coin1 = Collectible(1200, 700)
+
+coin_group_1 = pygame.sprite.Group(coin1)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -135,6 +173,7 @@ while is_running :
     # Player movement
     player_group.update(ground_group_1)
     enemy_group_1.update(ground_group_1, player)
+    coin_group_1.update(player)
     screen.fill((40, 40, 40))
     ground_group_1.draw(screen)
     player_group.draw(screen)

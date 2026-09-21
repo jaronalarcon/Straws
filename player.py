@@ -43,6 +43,9 @@ class Player(pygame.sprite.Sprite) :
         self.position.x = self.rect.x
         self.position.y = self.rect.y
 
+        # Score
+        self.score = 0
+
     def move(self) :
         # Get all keys' statuses
         keys = pygame.key.get_pressed()
