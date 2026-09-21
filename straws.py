@@ -164,10 +164,7 @@ for level in levels :
         camera.update(player)
         screen.fill((40, 40, 40))
         for sprite in sprites :
-            try :
-                screen.blit(sprite.image, camera.apply(sprite))
-            except AttributeError as a :
-                screen.blit(screen, sprite.rect, camera.apply(sprite))
+            screen.blit(sprite.image, camera.apply(sprite))
 
         # Update the entire screen
         pygame.display.flip()
