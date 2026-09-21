@@ -4,10 +4,8 @@
 # Imports
 import pygame
 
-class Goal :
+class Goal(pygame.sprite.Sprite) :
     def __init__(self, x : int, y : int) :
-        # This is the only asset that can be made out of pygame.Rect
-
         # Make shape
         self.rect = pygame.Rect(x, y, 50, 50)
 
