@@ -5,14 +5,18 @@
 # 
 # Check the README.md file for more information about this project.
 
-# Imports and initialization
+# Module imports
 import pygame, sys
-from ground import Ground
-from player import Player
-from enemy import Enemy
 from json import load
 from random import SystemRandom # Just for fun
+
+# Initialize pygame
 pygame.init()
+
+# Game asset imports
+from enemy import Enemy
+from ground import Ground
+from player import Player
 
 # Window and in-game clock
 SCREEN_WIDTH = 1200
