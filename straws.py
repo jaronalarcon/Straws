@@ -30,20 +30,17 @@ GROUND_X = 50
 GROUND_Y = 700
 
 ground1 = Ground(SCREEN_WIDTH, 50, SCREEN_WIDTH // 2, 750)
-ground_group = pygame.sprite.GroupSingle(ground1)
+ground_group = pygame.sprite.Group(ground1)
 
-# ---------------------------------------------------------------------------------------------------------------------------------------------------
+# Background (currently does not work, but may be used in future updates)
+background = pygame.Surface(screen.get_size())
+background = background.convert()
 
-# Pygame rect documentation
-
-# .x
-# .y
-# .top
-# .bottom
-# .left
-# .right
-
-# ---------------------------------------------------------------------------------------------------------------------------------------------------
+if pygame.font :
+    font = pygame.font.Font(None, 64)
+    text = font.render("Score: ", True, (140, 140, 140))
+    textpos = text.get_rect(centerx = 100, centery = 50)
+    background.blit(text, textpos)
 
 # Character superclass (currently unused, but may be used in future updates)
 class Character(pygame.sprite.Sprite) :
@@ -85,7 +82,7 @@ player_group = pygame.sprite.GroupSingle(player)
 # Enemy character assets
 
 enemy = Enemy(ground1, 300)
-enemy_group = pygame.sprite.GroupSingle(enemy)
+enemy_group = pygame.sprite.Group(enemy)
 
 # Camera assets
 class Camera :
@@ -112,7 +109,11 @@ camera = Camera()
 # (Basic frame of loop, event handling logic were borrowed from GeeksForGeeks)
 is_running = True
 while is_running :
-    sprites = [ground1, player, enemy]
+    # Show text
+    screen.blit(background, (0, 0))
+
+    # Get sprites to draw
+    sprites = list(ground_group) + list(player_group) + list(enemy_group)
 
     # Add background image(s)
     # Please import background image and add it here
@@ -127,11 +128,11 @@ while is_running :
         if event.type == pygame.KEYDOWN :
             if event.key == pygame.K_SPACE :
                 player.jump()
-                player.update()
+                player_group.update(ground_group)
 
     # Player movement
-    player_group.update()
-    enemy_group.update(player)
+    player_group.update(ground_group)
+    enemy_group.update(ground_group, player)
     screen.fill((40, 40, 40))
     ground_group.draw(screen)
     player_group.draw(screen)
