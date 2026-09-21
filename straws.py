@@ -30,7 +30,7 @@ ground1 = Ground(800, 50, 400, 750)
 ground2 = Ground(1100, 50, 1600, 750)
 ground3 = Ground(400, 50, 1600, 575)
 ground4 = Ground(400, 50, 2100, 375)
-ground5 = Ground(800, 50, 3000, 700)
+ground5 = Ground(1000, 50, 3100, 700)
 ground_group_1 = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5)
 
 # Background (currently does not work, but may be used in future updates)
