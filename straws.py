@@ -17,6 +17,7 @@ pygame.init()
 from collectible import Collectible
 from enemy import Enemy
 from ground import Ground
+from levels import Level
 from player import Player
 
 # Window and in-game clock
@@ -25,14 +26,6 @@ SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # Create window
 pygame.display.set_caption("Straws") # Title of window
 clock = pygame.time.Clock() # Set game clock
-
-# Ground assets
-ground1 = Ground(800, 50, 400, 750)
-ground2 = Ground(1100, 50, 1600, 750)
-ground3 = Ground(400, 50, 1600, 575)
-ground4 = Ground(400, 50, 2100, 375)
-ground5 = Ground(1000, 50, 3100, 700)
-ground_group_1 = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5)
 
 # Background (currently does not work, but may be used in future updates)
 background = pygame.Surface(screen.get_size())
@@ -76,18 +69,6 @@ class Character(pygame.sprite.Sprite) :
         self.velocity = pygame.math.Vector2()
         self.gravity = pygame.math.Vector2((0, 0.8))
 
-# Player character assets
-player = Player(ground1)
-player_group = pygame.sprite.GroupSingle(player)
-
-# Enemy character assets
-enemy1 = Enemy(ground1, 400)
-enemy2 = Enemy(ground2, 1600)
-enemy3 = Enemy(ground3, 1900)
-enemy4 = Enemy(ground4, 2100)
-enemy5 = Enemy(ground5, 3400)
-enemy_group_1 = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5)
-
 # Camera assets
 class Camera :
     def __init__(self) :
@@ -105,76 +86,88 @@ class Camera :
 
 camera = Camera()
 
-# Item/collectible assets
-
-coin1 = Collectible(650, 725)
-coin2 = Collectible(700, 725)
-coin3 = Collectible(750, 725)
-coin4 = Collectible(1550, 550)
-coin5 = Collectible(1600, 550)
-coin6 = Collectible(1650, 550)
-coin7 = Collectible(1800, 475)
-coin8 = Collectible(1875, 400)
-coin9 = Collectible(2500, 300)
-coin10 = Collectible(2550, 400)
-coin11 = Collectible(2600, 500)
-coin12 = Collectible(2650, 600)
-coin_group_1 = pygame.sprite.Group(coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10, coin11, coin12)
+# Goal assets
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-# Game loop
-# (Basic frame of loop, event handling logic were borrowed from GeeksForGeeks)
-is_running = True
-while is_running :
-    # Show text
-    screen.blit(background, (0, 0))
+levels = Level.get_all_levels()
 
-    # Get sprites to draw
-    sprites = list(ground_group_1) + list(player_group) + list(enemy_group_1) + list(coin_group_1)
+# Leveled game loop
+for level in levels :
+    is_incomplete = True
+    while is_incomplete :
+        # Get assets for the level
+        sprites = level
 
-    # Add background image(s)
-    # Please import background image and add it here
+        # Show text
+        screen.blit(background, (0, 0)) # Add background images, too!
 
-    # General event loop
-    for event in pygame.event.get() :
-        if event.type == pygame.QUIT :
-            is_running = False
+        # Get sprites to draw
+        # Order of asset groups in list is {0: ground, 1: player, 2: enemy, 3: collectible, 4: goal}
+        ground_group = sprites[0]
+        player = sprites[1]
+        enemy_group = sprites[2]
+        coin_group = sprites[3]
+        goal_group = sprites[4]
+
+        # General event loop
+        for event in pygame.event.get() :
+            # Exit event
+            if event.type == pygame.QUIT :
+                pygame.exit(); sys.exit()
+
+            # Jump event
+            if event.type == pygame.KEYDOWN :
+                if event.key == pygame.K_SPACE :
+                    player.jump()
+                    player.update(ground_group)
+
+        # Asset updates
+        # General event loop
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT :
+                pygame.quit(); sys.exit()
+
+            # Jump event
+            if event.type == pygame.KEYDOWN :
+                if event.key == pygame.K_SPACE :
+                    player.jump()
+                    player.update(ground_group)
+
+        # Player movement
+        player.update(ground_group)
+        enemy_group.update(ground_group, player)
+        coin_group.update()
+        screen.fill((40, 40, 40))
+        ground_group.draw(screen)
+        player.draw(screen)
+        enemy_group.draw(screen)
+        coin_group.draw(screen)
+        goal_group.draw(screen)
+
+        # Check collected items
+        collected = pygame.sprite.spritecollide(player, coin_group, True)
+        if collected :
+            player.score += 1
+            print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}") # Debugging... with LORE
+
+        # Check goalpost
+        is_won = pygame.sprite.spritecollide(player, goal_group, False)
+        if is_won :
+            is_incomplete = False # For good measure
             break
 
-        # Jump event
-        if event.type == pygame.KEYDOWN :
-            if event.key == pygame.K_SPACE :
-                player.jump()
-                player_group.update(ground_group_1)
+        # Update camera
+        camera.update(player)
+        screen.fill((40, 40, 40))
+        for sprite in sprites :
+            screen.blit(sprite.image, camera.apply(sprite))
 
-    # Player movement
-    player_group.update(ground_group_1)
-    enemy_group_1.update(ground_group_1, player)
-    coin_group_1.update()
-    screen.fill((40, 40, 40))
-    ground_group_1.draw(screen)
-    player_group.draw(screen)
-    enemy_group_1.draw(screen)
-    coin_group_1.draw(screen)
+        # Update the entire screen
+        pygame.display.flip()
 
-    # Check collected items
-    collected = pygame.sprite.spritecollide(player, coin_group_1, True)
-    if collected :
-        player.score += 1
-        print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}") # Debugging... with LORE
-
-    # Update camera
-    camera.update(player)
-    screen.fill((40, 40, 40))
-    for sprite in sprites :
-        screen.blit(sprite.image, camera.apply(sprite))
-
-    # Update the entire screen
-    pygame.display.flip()
-
-    # Update the game clock
-    clock.tick(50)
+        # Update the game clock
+        clock.tick(50)
 
 # Quit game
 pygame.quit()
