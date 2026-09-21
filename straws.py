@@ -26,7 +26,7 @@ GROUND_Y = 700
 
 # Terrain assets
 class Ground(pygame.sprite.Sprite) :
-    def __init__(self) :
+    def __init__(self, x : int, y : int) :
         # Call the parent class constructor
         pygame.sprite.Sprite.__init__(self)
 
@@ -42,12 +42,12 @@ class Ground(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect()
 
         # Place the ground at the bottom of the screen
-        self.rect.center = (SCREEN_WIDTH // 2, GROUND_Y)
+        self.rect.center = (x, y)
 
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 255, 255), self.rect)
 
-ground = Ground()
+ground = Ground(SCREEN_WIDTH // 2, 750)
 ground_group = pygame.sprite.GroupSingle(ground)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ class Player(pygame.sprite.Sprite) :
 
         # Movement speed and jump mechanics
         self.move_speed = 6
-        self.jump_height = -20 # Negative because the y-axis is inverted in Pygame
+        self.jump_height = -17.5 # Negative because the y-axis is inverted in Pygame
         self.is_on_ground = False
 
         # Floor
