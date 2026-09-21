@@ -47,7 +47,7 @@ class Level :
         coin_group = pygame.sprite.Group(coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10, coin11, coin12)
 
         # Goal in the level
-        goalpost = Goal(2800, 500)
+        goalpost = Goal(3150, 500)
 
         # Return the assets for the level
         return [ground_group, player, enemy_group, coin_group, goalpost]
