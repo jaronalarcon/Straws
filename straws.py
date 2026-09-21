@@ -83,7 +83,7 @@ player_group = pygame.sprite.GroupSingle(player)
 enemy1 = Enemy(ground1, 400)
 enemy2 = Enemy(ground2, 1600)
 enemy3 = Enemy(ground3, 1900)
-enemy4 = Enemy(ground4, 2400)
+enemy4 = Enemy(ground4, 2100)
 enemy5 = Enemy(ground5, 3400)
 enemy_group_1 = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5)
 
@@ -115,8 +115,8 @@ class Collectible(pygame.sprite.Sprite) :
         self.show_image = True
 
         # Resize the image
-        self.width = 50
-        self.height = 50
+        self.width = 40
+        self.height = 40
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
         # Generate the collision shape of the image
@@ -125,23 +125,27 @@ class Collectible(pygame.sprite.Sprite) :
         # Set the center to the ground
         self.rect.midbottom = (x, y)
 
-    def get_collected(self, player : Player) :
-        # If the player's hitbox collides with this collectible's hitbox
-        if abs(self.rect.x - player.rect.x) <= self.width and player.rect.y + player.height > self.rect.y and player.rect.y + player.height <= self.rect.y + self.height :
-            self.show_image = False
-            player.score += 1
-
-    def update(self, player : Player) :
-        self.get_collected(player)
+    def update(self) :
+        pass
 
     def draw(self, surface) :
-        # Show image while not collected
+        # Show image while on screen
         if self.show_image :
             pygame.draw.rect(surface, (255, 0, 0), self.rect)
 
-coin1 = Collectible(1200, 700)
-
-coin_group_1 = pygame.sprite.Group(coin1)
+coin1 = Collectible(650, 725)
+coin2 = Collectible(700, 725)
+coin3 = Collectible(750, 725)
+coin4 = Collectible(1550, 550)
+coin5 = Collectible(1600, 550)
+coin6 = Collectible(1650, 550)
+coin7 = Collectible(1800, 475)
+coin8 = Collectible(1875, 400)
+coin9 = Collectible(2500, 300)
+coin10 = Collectible(2550, 400)
+coin11 = Collectible(2600, 500)
+coin12 = Collectible(2650, 600)
+coin_group_1 = pygame.sprite.Group(coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10, coin11, coin12)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -153,7 +157,7 @@ while is_running :
     screen.blit(background, (0, 0))
 
     # Get sprites to draw
-    sprites = list(ground_group_1) + list(player_group) + list(enemy_group_1)
+    sprites = list(ground_group_1) + list(player_group) + list(enemy_group_1) + list(coin_group_1)
 
     # Add background image(s)
     # Please import background image and add it here
@@ -173,11 +177,18 @@ while is_running :
     # Player movement
     player_group.update(ground_group_1)
     enemy_group_1.update(ground_group_1, player)
-    coin_group_1.update(player)
+    coin_group_1.update()
     screen.fill((40, 40, 40))
     ground_group_1.draw(screen)
     player_group.draw(screen)
     enemy_group_1.draw(screen)
+    coin_group_1.draw(screen)
+
+    # Check collected items
+    collected = pygame.sprite.spritecollide(player, coin_group_1, True)
+    if collected :
+        player.score += 1
+        print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}") # Debugging... with LORE
 
     # Update camera
     camera.update(player)
