@@ -109,6 +109,9 @@ for level in levels :
         enemy_group = sprites[2]
         coin_group = sprites[3]
         goalpost = sprites[4]
+        sprites = list(ground_group) + list(enemy_group) + list(coin_group)
+        sprites.append(player)
+        sprites.append(goalpost)
 
         # General event loop
         for event in pygame.event.get() :
@@ -161,7 +164,10 @@ for level in levels :
         camera.update(player)
         screen.fill((40, 40, 40))
         for sprite in sprites :
-            screen.blit(sprite.image, camera.apply(sprite))
+            try :
+                screen.blit(sprite.image, camera.apply(sprite))
+            except AttributeError as a :
+                screen.blit(screen, sprite.rect, camera.apply(sprite))
 
         # Update the entire screen
         pygame.display.flip()
