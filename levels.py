@@ -48,10 +48,9 @@ class Level :
 
         # Goal in the level
         goalpost = Goal(3100, 500)
-        goal_group = pygame.sprite.GroupSingle(goalpost)
 
         # Return the assets for the level
-        return [ground_group, player, enemy_group, coin_group, goal_group]
+        return [ground_group, player, enemy_group, coin_group, goalpost]
 
     @staticmethod
     def get_all_levels() :

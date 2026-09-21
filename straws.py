@@ -108,7 +108,7 @@ for level in levels :
         player = sprites[1]
         enemy_group = sprites[2]
         coin_group = sprites[3]
-        goal_group = sprites[4]
+        goalpost = sprites[4]
 
         # General event loop
         for event in pygame.event.get() :
@@ -143,7 +143,7 @@ for level in levels :
         player.draw(screen)
         enemy_group.draw(screen)
         coin_group.draw(screen)
-        goal_group.draw(screen)
+        goalpost.draw(screen)
 
         # Check collected items
         collected = pygame.sprite.spritecollide(player, coin_group, True)
@@ -152,8 +152,8 @@ for level in levels :
             print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}") # Debugging... with LORE
 
         # Check goalpost
-        is_won = pygame.sprite.spritecollide(player, goal_group, False)
-        if is_won :
+        if (abs(goalpost.rect.x - player.rect.x) <= goalpost.width and player.rect.y + player.height > goalpost.rect.y and
+            player.rect.y + player.height <= goalpost.rect.y + goalpost.height) :
             is_incomplete = False # For good measure
             break
 
