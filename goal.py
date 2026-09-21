@@ -9,10 +9,7 @@ class Goal :
         # This is the only asset that can be made out of pygame.Rect
 
         # Make shape
-        self.rect = pygame.Rect()
-
-        # Set center
-        self.rect.center = (x, y)
+        self.rect = pygame.Rect(x, y, 50, 50)
 
     def draw(self, surface) :
         pygame.draw.rect(surface, (200, 200, 0), self.rect)
