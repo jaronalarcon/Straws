@@ -7,7 +7,7 @@ import pygame
 class Goal(pygame.sprite.Sprite) :
     def __init__(self, x : int, y : int) :
         # Call parent class constructor
-        super().__init__(self)
+        pygame.sprite.Sprite.__init__(self)
 
         # Load image assets
         self.image = pygame.image.load("red-triangular-pennant-flag-on-pole-isolated-on-transparent-background-png.png").convert_alpha() # Replace with actual goalpost assets
