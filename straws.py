@@ -27,48 +27,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # Create window
 pygame.display.set_caption("Straws") # Title of window
 clock = pygame.time.Clock() # Set game clock
 
-# Background (currently does not work, but may be used in future updates)
-background = pygame.Surface(screen.get_size())
-background = background.convert()
-
-if pygame.font :
-    font = pygame.font.Font(None, 64)
-    text = font.render("Score: ", True, (140, 140, 140))
-    textpos = text.get_rect(centerx = 100, centery = 50)
-    background.blit(text, textpos)
-
-# Character superclass (currently unused, but may be used in future updates)
-class Character(pygame.sprite.Sprite) :
-    def __init__(self, image : str, width : int, height : int,
-                 move_speed : int | float, jump_height : int | float, floor : Ground,
-                 starting_x : int) :
-        # Call the parent class constructor
-        super().__init__(self)
-
-        # Load image assets
-        self.image = pygame.image.load(image).convert_alpha()
-
-        # Resize the image
-        self.width = width
-        self.height = height
-        self.image = pygame.transform.scale(self.image, (self.width, self.height))
-
-        # Generate the collision shape of the image
-        self.rect = self.image.get_rect()
-
-        # Movement speed and jump mechanics
-        self.move_speed = move_speed
-        self.jump_height = jump_height
-        self.is_on_ground = False
-
-        # Calculate character floor
-        self.floor = floor.rect.top
-
-        # Physics variables
-        self.position = pygame.math.Vector2((int, self.floor))
-        self.velocity = pygame.math.Vector2()
-        self.gravity = pygame.math.Vector2((0, 0.8))
-
 # Camera assets
 class Camera :
     """ In-game camera.
