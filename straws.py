@@ -101,6 +101,9 @@ camera = Camera()
 
 levels = Level.get_all_levels()
 
+# Player score consistency tracker variable
+total_score = 0
+
 # Leveled game loop
 for level in levels :
     # Get the assets for this level
@@ -108,6 +111,9 @@ for level in levels :
 
     # Reset camera for the current level's player
     camera.reset()
+
+    # Get the player's score thus far
+    player.set_score(total_score)
 
     # Set the next level as incomplete
     is_incomplete = True
@@ -131,10 +137,14 @@ for level in levels :
         collected = pygame.sprite.spritecollide(player, coin_group, True)
         if collected :
             player.score += 1
-            print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}") # Debugging... with LORE
+            print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}\n\n") # Debugging... with LORE
 
         # Check goalpost interaction
         if pygame.sprite.collide_rect(player, goalpost) :
+            # Store player's score for this level externally
+            total_score = player.score
+
+            # Break the game loop for this level
             is_incomplete = False
 
         # Draw assets on screen

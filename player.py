@@ -128,7 +128,7 @@ class Player(pygame.sprite.Sprite) :
         self.check_collision_y(grounds)
 
     def update(self, ground_group) :
-        # Allow the player to move
+        # Player movement
         self.move()
         self.move_collide(ground_group)
 
@@ -137,8 +137,15 @@ class Player(pygame.sprite.Sprite) :
 
         # Death collision
         if self.rect.bottom >= 1000 :
-            print("You fell. Into a hole. How sad.")
+            print("You fell. Into a hole. How sad.\n\n")
             pygame.quit(); sys.exit()
+
+    def set_score(self, amount : int) -> None :
+        """ Method to set former player's score to this player's score
+            to ensure the user's points remain consistent between each
+            level. """
+
+        self.score = amount
 
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 255, 255), self.rect) # Update for player assets!
