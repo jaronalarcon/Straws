@@ -84,7 +84,7 @@ class Player(pygame.sprite.Sprite) :
         # Go through each ground in the level
         for ground in grounds :
             # If the player is touching the ground
-            if self.rect.colliderect(ground) :
+            if self.rect.colliderect(ground.rect) :
                 # If the player is moving right
                 if self.velocity.x > 0 :
                     self.rect.right = ground.rect.left
@@ -103,7 +103,7 @@ class Player(pygame.sprite.Sprite) :
         # Go through each ground in the level
         for ground in grounds :
             # If the player is touching the ground
-            if self.rect.colliderect(ground) :
+            if self.rect.colliderect(ground.rect) :
                 # If the player is moving down
                 if self.velocity.y > 0 :
                     self.rect.bottom = ground.rect.top

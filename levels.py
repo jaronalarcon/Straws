@@ -11,7 +11,7 @@ from player import Player
 
 class Level :
     @staticmethod
-    def level1() -> list :
+    def level1() -> tuple :
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 750)
         ground2 = Ground(1100, 50, 1600, 750)
@@ -50,21 +50,21 @@ class Level :
         goalpost = Goal(3150, 500)
 
         # Return the assets for the level
-        return [ground_group, player, enemy_group, coin_group, goalpost]
+        return (ground_group, player, enemy_group, coin_group, goalpost)
 
     @staticmethod
-    def level2() -> list :
+    def level2() -> tuple :
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 350)
         ground2 = Ground(800, 50, 800, 500)
-        ground_group = pygame.sprite.Sprite(ground1, ground2)
+        ground_group = pygame.sprite.Group(ground1, ground2)
 
         # Player in the level
         player = Player(ground1)
 
         # Enemies in the level
         enemy1 = Enemy(ground1, 400)
-        enemy_group = pygame.sprite.Ground(enemy1)
+        enemy_group = pygame.sprite.Group(enemy1)
 
         # Collectibles in the level
         coin1 = Collectible(650, 325)
@@ -74,8 +74,8 @@ class Level :
         goalpost = Goal(1000, 100)
 
         # Return the assets for the level
-        return [ground_group, player, enemy_group, coin_group, goalpost]
+        return (ground_group, player, enemy_group, coin_group, goalpost)
 
     @staticmethod
     def get_all_levels() :
-        return [Level.level2()]
+        return [Level.level1, Level.level2]

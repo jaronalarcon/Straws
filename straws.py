@@ -78,11 +78,20 @@ class Camera :
         self.y = 0
 
     def update(self, target : Player) :
+        # Check if the player is almost outside range of vision
         if target.rect.x >= SCREEN_WIDTH // 2 :
             self.x = target.rect.centerx - self.width // 2
 
+        # Maintain original position on screen whenever possible
+        else :
+            self.x = 0
+
     def apply(self, entity) :
         return entity.rect.move(-self.x, -self.y)
+
+    def reset(self) :
+        self.x = 0
+        self.y = 0
 
 camera = Camera()
 
@@ -94,39 +103,16 @@ levels = Level.get_all_levels()
 
 # Leveled game loop
 for level in levels :
+    # Get the assets for this level
+    ground_group, player, enemy_group, coin_group, goalpost = level()
+
+    # Reset camera for the current level's player
+    camera.reset()
+
+    # Set the next level as incomplete
     is_incomplete = True
     while is_incomplete :
-        # Get assets for the level
-        sprites = level
-
-        # Show text
-        screen.blit(background, (0, 0)) # Add background images, too!
-
-        # Get sprites to draw
-        # Order of asset groups in list is {0: ground, 1: player, 2: enemy, 3: collectible, 4: goal}
-        ground_group = sprites[0]
-        player = sprites[1]
-        enemy_group = sprites[2]
-        coin_group = sprites[3]
-        goalpost = sprites[4]
-        sprites = list(ground_group) + list(enemy_group) + list(coin_group)
-        sprites.append(player)
-        sprites.append(goalpost)
-
-        # General event loop
-        for event in pygame.event.get() :
-            # Exit event
-            if event.type == pygame.QUIT :
-                pygame.exit(); sys.exit()
-
-            # Jump event
-            if event.type == pygame.KEYDOWN :
-                if event.key == pygame.K_SPACE :
-                    player.jump()
-                    player.update(ground_group)
-
-        # Asset updates
-        # General event loop
+        # Player updates and general event loop
         for event in pygame.event.get() :
             if event.type == pygame.QUIT :
                 pygame.quit(); sys.exit()
@@ -135,18 +121,11 @@ for level in levels :
             if event.type == pygame.KEYDOWN :
                 if event.key == pygame.K_SPACE :
                     player.jump()
-                    player.update(ground_group)
 
-        # Player movement
+        # Player, enemy, collectible updates
         player.update(ground_group)
         enemy_group.update(ground_group, player)
         coin_group.update()
-        screen.fill((40, 40, 40))
-        ground_group.draw(screen)
-        player.draw(screen)
-        enemy_group.draw(screen)
-        coin_group.draw(screen)
-        goalpost.draw(screen)
 
         # Check collected items
         collected = pygame.sprite.spritecollide(player, coin_group, True)
@@ -154,15 +133,14 @@ for level in levels :
             player.score += 1
             print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}") # Debugging... with LORE
 
-        # Check goalpost
-        if (abs(goalpost.rect.x - player.rect.x) <= goalpost.width and player.rect.y + player.height > goalpost.rect.y and
-            player.rect.y + player.height <= goalpost.rect.y + goalpost.height) :
-            is_incomplete = False # For good measure
-            break
+        # Check goalpost interaction
+        if pygame.sprite.collide_rect(player, goalpost) :
+            is_incomplete = False
 
-        # Update camera
-        camera.update(player)
+        # Draw assets on screen
         screen.fill((40, 40, 40))
+        camera.update(player)
+        sprites = list(ground_group) + list(enemy_group) + list(coin_group) + [player, goalpost]
         for sprite in sprites :
             screen.blit(sprite.image, camera.apply(sprite))
 
@@ -171,13 +149,6 @@ for level in levels :
 
         # Update the game clock
         clock.tick(50)
-
-    # Clear the screen after level clear
-    screen.fill((40, 40, 40))
-
-    # Kill all sprites on screen for good measure
-    for sprite in sprites :
-        sprite.kill()
 
 # Quit game
 pygame.quit()
