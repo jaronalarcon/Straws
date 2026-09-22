@@ -77,7 +77,7 @@ class Enemy(pygame.sprite.Sprite) :
         for ground in grounds :
             # If the enemy is touching the ground
             if self.rect.colliderect(ground) :
-                # If the enemy is moving down
+                # If the enemy is moving down (inverted y-direction)
                 if self.velocity.y > 0 :
                     self.rect.bottom = ground.rect.top
                     self.velocity.y = 0
@@ -92,10 +92,12 @@ class Enemy(pygame.sprite.Sprite) :
                 self.position.y = self.rect.y
 
     def move_collide(self, grounds) :
+        # Update x position and check for collision
         self.position.x += self.velocity.x
         self.rect.x = round(self.position.x)
         self.check_collision_x(grounds)
 
+        # Update y position and check for collision
         self.position.y += self.velocity.y
         self.rect.y = round(self.position.y)
         self.check_collision_y(grounds)
@@ -110,6 +112,7 @@ class Enemy(pygame.sprite.Sprite) :
 
         ### IMPORTANT: The enemy's height is defined by the top of its body.
         
+        # Kill the player if the player character collides with an enemy
         if abs(self.rect.x - player.rect.x) <= self.width and player.rect.y + player.height > self.rect.y and player.rect.y + player.height <= self.rect.y + self.height :
             print("NYEH HEH HEH!") if SystemRandom().randint(0, 99) == 0 else print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just like the others. Was it ever an escape, or was it delaying the inevitable?") # Easter egg
             pygame.quit(); sys.exit()

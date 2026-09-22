@@ -109,7 +109,7 @@ class Player(pygame.sprite.Sprite) :
         for ground in grounds :
             # If the player is touching the ground
             if self.rect.colliderect(ground.rect) :
-                # If the player is moving down
+                # If the player is moving down (inverted y-direction)
                 if self.velocity.y > 0 :
                     self.rect.bottom = ground.rect.top
                     self.velocity.y = 0
@@ -124,10 +124,12 @@ class Player(pygame.sprite.Sprite) :
                 self.position.y = self.rect.y
 
     def move_collide(self, grounds) :
+        # Update x position and check for collision
         self.position.x += self.velocity.x
         self.rect.x = round(self.position.x)
         self.check_collision_x(grounds)
 
+        # Update y position and check for collision
         self.position.y += self.velocity.y
         self.rect.y = round(self.position.y)
         self.check_collision_y(grounds)
