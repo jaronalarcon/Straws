@@ -140,5 +140,7 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
         clock.tick(50)
 
 # Quit game
+print("As the sun sets on the final day, you close your eyes and let yourself be embraced by this world, the world which you were once promised, some world once forsaken, now a world of rebirth.\n")
+print("Thank you for playing our game! We hope you enjoyed playing this demo as much as we did making it.\n--Operation Straws Team")
 pygame.quit()
 sys.exit()
