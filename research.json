@@ -1,25 +1,25 @@
 {
+    "waiahole_beach_park" : [
+        "Waiāhole Beach Park is located on the windward coast of O‘ahu along Kaneohe Bay.",
+        "Swimming in Waiāhole Beach Park isn't possible due to the ocean bottom being shallow and the presence of a reef.",
+        "Mokoli‘i Island can be seen from Waiāhole Beach Park.",
+        "Both the Ko‘olau mountain range and Kaneohe Bay are visible from Waiāhole Beach Park.",
+        "Waiāhole Beach Park is popular for fishing, picnics, short walks, and bay views."
+    ],
+
     "lyon_arboretum" : [
-        "Is an public arboretum and botanical garden",
-        "Located in the upper end of Manoa Valley in Oahu",
-        "The Lyon Arboretum is the only university-owned botanical garden in the United States. Which is managed by the University of Hawaii at Manoa.",
-        "Has more than 6,000 tropical and subtropical plants across its 193.5 acres.",
-        "Has over 7 miles of hiking trials"
+        "The Lyon Arboretum is an public arboretum and botanical garden.",
+        "The Lyon Arboretum is located in the upper end of Mānoa Valley in O‘ahu.",
+        "The Lyon Arboretum is the only university-owned botanical garden in the United States, managed by the University of Hawaii at Mānoa.",
+        "The Lyon Arboretum has more than 6,000 tropical and subtropical plants across its 193.5 acres.",
+        "The Lyon Arboretum has over 7 miles of hiking trails."
     ],
 
-
-    "Waiahole_Beach_Park" : [
-        "Located on the windward coast of Oahu along Kaneohe Bay.",
-        "Swimming in the beach park isn't possible due to the ocean bottom being shallow and has a reef.",
-        "Mokoli'i Island can be seen in the distance",
-        "Can view Ko'olau Mountains and Kaneohe Bay",
-        "The park is popular for fishing, picnics, short walks, and bay views."
-    ],
-     "Kapolei" : [
+     "kapolei" : [
         "As of 2026, Kapolei has a population of 24,844 people.",
-        "Kapolei is known as Oahu's 'second city'.",
-        "The name 'Kapolei' originates from 'Pu'u o Kapolei'. Pu'u meaning 'hill' and Kapo lei meaning 'beloved Kapo' (Kapo was a sister of Pele)",
-        "Kapolei High School is the first traditional high school to open in July of 2000. The last high school that opened in Oahu was Kaiser High in 1971. (located in Hawaii Kai)",
+        "Kapolei is known as the 'second city' of O‘ahu.",
+        "The name 'Kapolei' originates from the phrase 'Pu‘u o Kapolei,' meaning 'hill of beloved Kapo'. Kapo was a sister of Pele.",
+        "Established in July 2000, Kapolei High School is the newest traditional high school on O‘ahu.",
         "In 1879, Kapolei was used as sugarcane and pineapple plantations by an industrialist named James Campbell."
      ]
 }
