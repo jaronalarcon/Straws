@@ -53,5 +53,29 @@ class Level :
         return [ground_group, player, enemy_group, coin_group, goalpost]
 
     @staticmethod
+    def level2() -> list :
+        # Grounds in the level
+        ground1 = Ground(800, 50, 400, 350)
+        ground2 = Ground(800, 50, 800, 500)
+        ground_group = pygame.sprite.Sprite(ground1, ground2)
+
+        # Player in the level
+        player = Player(ground1)
+
+        # Enemies in the level
+        enemy1 = Enemy(ground1, 400)
+        enemy_group = pygame.sprite.Ground(enemy1)
+
+        # Collectibles in the level
+        coin1 = Collectible(650, 325)
+        coin_group = pygame.sprite.Group(coin1)
+
+        # Goal in the level
+        goalpost = Goal(1000, 100)
+
+        # Return the assets for the level
+        return [ground_group, player, enemy_group, coin_group, goalpost]
+
+    @staticmethod
     def get_all_levels() :
-        return [Level.level1()]
+        return [Level.level2()]

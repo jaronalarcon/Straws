@@ -172,6 +172,13 @@ for level in levels :
         # Update the game clock
         clock.tick(50)
 
+    # Clear the screen after level clear
+    screen.fill((40, 40, 40))
+
+    # Kill all sprites on screen for good measure
+    for sprite in sprites :
+        sprite.kill()
+
 # Quit game
 pygame.quit()
 sys.exit()
