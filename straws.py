@@ -137,7 +137,7 @@ for level in levels :
         collected = pygame.sprite.spritecollide(player, coin_group, True)
         if collected :
             player.score += 1
-            print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}\n\n") # Debugging... with LORE
+            print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}\n") # Debugging... with LORE
 
         # Check goalpost interaction
         if pygame.sprite.collide_rect(player, goalpost) :

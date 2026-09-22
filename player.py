@@ -3,6 +3,7 @@
 
 # Imports
 from ground import Ground
+from random import SystemRandom
 import pygame, sys
 
 class Player(pygame.sprite.Sprite) :
@@ -33,7 +34,7 @@ class Player(pygame.sprite.Sprite) :
         # Floor
         self.floor = floor.rect.top
 
-        # Physics variables
+        # Physics variables (implemented with the help of AI)
         self.position = pygame.math.Vector2((50, self.floor))
         self.velocity = pygame.math.Vector2()
         self.gravity = pygame.math.Vector2((0, 0.8))
@@ -76,6 +77,8 @@ class Player(pygame.sprite.Sprite) :
             self.is_on_ground = False
 
     def check_collision_x(self, grounds) :
+        """ Horizontal velocity collision detection.
+            Written with the help of AI. """
         # If the player is touching the left wall
         if self.rect.left < 0 :
             self.rect.left = 0
@@ -97,6 +100,8 @@ class Player(pygame.sprite.Sprite) :
                 self.position.x = self.rect.x
 
     def check_collision_y(self, grounds) :
+        """ Vertical velocity collision detection.
+            Written with the help of AI. """
         # Assume the player is not on the ground
         self.is_on_ground = False
 
@@ -137,7 +142,7 @@ class Player(pygame.sprite.Sprite) :
 
         # Death collision
         if self.rect.bottom >= 1000 :
-            print("You fell. Into a hole. How sad.\n\n")
+            print("You fell. Into a hole. How sad.\n") if SystemRandom(0, 9) >= 1 else print("You hear her whisper in your ear: Come on, get up! They're waiting for you!")
             pygame.quit(); sys.exit()
 
     def set_score(self, amount : int) -> None :
