@@ -142,7 +142,7 @@ class Player(pygame.sprite.Sprite) :
 
         # Death collision
         if self.rect.bottom >= 1000 :
-            print("You fell. Into a hole. How sad.\n") if SystemRandom(0, 9) >= 1 else print("You hear her whisper in your ear: Come on, get up! They're waiting for you!")
+            print("You fell. Into a hole. How sad.\n") if SystemRandom().randint(0, 9) >= 1 else print("You hear her whisper in your ear: Come on, get up! They're waiting for you!")
             pygame.quit(); sys.exit()
 
     def set_score(self, amount : int) -> None :
