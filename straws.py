@@ -30,7 +30,7 @@ clock = pygame.time.Clock() # Set game clock
 # Camera assets
 class Camera :
     """ In-game camera.
-        Class developed with the use of AI. """
+        Class developed with the help of AI. """
     def __init__(self) :
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
