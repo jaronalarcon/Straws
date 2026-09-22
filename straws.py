@@ -71,6 +71,8 @@ class Character(pygame.sprite.Sprite) :
 
 # Camera assets
 class Camera :
+    """ In-game camera.
+        Class developed with the use of AI. """
     def __init__(self) :
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
@@ -95,17 +97,16 @@ class Camera :
 
 camera = Camera()
 
-# Goal assets
-
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
+# Get levels
 levels = Level.get_all_levels()
 
 # Player score consistency tracker variable
 total_score = 0
 
 # Leveled game loop
-for level in levels :
+for level in levels : # Body of loop debugged by AI, individual lines of code written by us
     # Get the assets for this level
     ground_group, player, enemy_group, coin_group, goalpost = level()
 

@@ -23,7 +23,8 @@ class Ground(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect()
 
         # Place the ground at the bottom of the screen
-        self.rect.center = (x, y)
+        self.rect.center = (x, y) # Therefore, left edge = x - (width // 2)
+                                  #            right edge = x + (width // 2)
 
     def draw(self, surface) :
         pygame.draw.rect(surface, (255, 255, 255), self.rect)

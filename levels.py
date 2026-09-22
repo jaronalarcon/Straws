@@ -12,6 +12,9 @@ from player import Player
 class Level :
     @staticmethod
     def level1() -> tuple :
+        """ Introductory level of the demo.
+            Based on Waiāhole Beach Park on the island of O‘ahu."""
+        
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 750)
         ground2 = Ground(1100, 50, 1600, 750)
@@ -51,10 +54,13 @@ class Level :
         goalpost = Goal(3150, 500)
 
         # Return the assets for the level
-        return (ground_group, player, enemy_group, coin_group, goalpost)
+        return (ground_group, player, enemy_group, coin_group, goalpost) # Tuple suggested by AI
 
     @staticmethod
     def level2() -> tuple :
+        """ Intermediate level of the demo.
+            Based on Lyon Arboretum on the island of O‘ahu. """
+
         # Grounds in the level
         ground1 = Ground(600, 50, 300, 425)
         ground2 = Ground(600, 50, 1000, 625)
@@ -109,5 +115,64 @@ class Level :
         return (ground_group, player, enemy_group, coin_group, goalpost)
 
     @staticmethod
+    def level3() -> tuple :
+        """ Final level of the demo.
+            Based on Kapolei on the island of O‘ahu. """
+
+        # Grounds in the level
+        ground1 = Ground(800, 50, 400, 100) # x: 0 - 800
+        ground2 = Ground(600, 50, 1300, 250) # x: 1000 - 1600
+        ground3 = Ground(400, 50, 2000, 400) # x: 1800 - 2200
+        ground4 = Ground(200, 50, 2500, 400) # x: 2400 - 2600
+        # Floating islands
+        ground5 = Ground(50, 50, 2825, 450) # x: 2800 - 2850
+        ground6 = Ground(50, 50, 3075, 500) # x: 3050 - 3100
+        ground7 = Ground(50, 50, 3325, 550) # x: 3300 - 3350
+        ground8 = Ground(50, 50, 3575, 600) # x: 3550 - 3600
+        # Final goal
+        ground9 = Ground(400, 50, 4050, 800) # x: 3850 - 4250
+        ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8, ground9)
+
+        # Player in the level
+        player = Player(ground1)
+
+        # Enemies in the level
+        enemy1 = Enemy(ground1, 400)
+        enemy2 = Enemy(ground2, 1600)
+        enemy3 = Enemy(ground3, 2200)
+        enemy4 = Enemy(ground4, 2600)
+        enemy5 = Enemy(ground9, 4250)
+        enemy_group = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5)
+
+        # Collectibles in the level
+        coin1 = Collectible(725, 75)
+        coin2 = Collectible(1200, 225)
+        coin3 = Collectible(1300, 225)
+        coin4 = Collectible(1400, 225)
+        coin5 = Collectible(2450, 375)
+        coin6 = Collectible(2550, 375)
+        coin7 = Collectible(2500, 375)
+        coin8 = Collectible(2825, 425)
+        coin9 = Collectible(3075, 475)
+        coin10 = Collectible(3325, 525)
+        coin11 = Collectible(3575, 575)
+        # Coin arch
+        coin12 = Collectible(3650, 450)
+        coin13 = Collectible(3710, 425)
+        coin14 = Collectible(3770, 475)
+        coin15 = Collectible(3830, 525)
+        coin16 = Collectible(3890, 625)
+        coin_group = pygame.sprite.Group(coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
+                                         coin11, coin12, coin13, coin14, coin15, coin16)
+
+        # Goal in the level
+        goalpost = Goal(4050, 750)
+
+        # Return the assets for the level
+        return (ground_group, player, enemy_group, coin_group, goalpost)
+
+    @staticmethod
     def get_all_levels() :
-        return [Level.level1, Level.level2]
+        # Return all of the level methods
+        return [Level.level1, Level.level2, Level.level3] # AI suggested returning the methods
+                                                          # rather than method calls
