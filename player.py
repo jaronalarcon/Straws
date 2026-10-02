@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite) :
         self.image = pygame.image.load("player.png").convert_alpha()
 
         # Resize the image
-        self.width = 50
+        self.width = 35
         self.height = (1536 / 478) * self.width # Aspect ratio of the image
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
