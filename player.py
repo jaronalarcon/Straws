@@ -16,11 +16,11 @@ class Player(pygame.sprite.Sprite) :
         pygame.sprite.Sprite.__init__(self)
 
         # Load image assets for player character
-        self.image = pygame.image.load("handsome-young-man-in-suit-standing-with-hands-in-pockets-over-isolated-on-transparent-background-png.png").convert_alpha() # Please change with player assets!
+        self.image = pygame.image.load("player.png").convert_alpha()
 
         # Resize the image
         self.width = 50
-        self.height = 1.5 * self.width
+        self.height = (1536 / 478) * self.width # Aspect ratio of the image
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
         # Get the rectangle of the image for collision detection
