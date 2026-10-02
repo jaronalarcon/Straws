@@ -5,12 +5,13 @@
 import pygame
 
 class Ground(pygame.sprite.Sprite) :
-    def __init__(self, width : int, height : int, x : int, y : int) :
+    def __init__(self, width : int, height : int, x : int, y : int,
+                 image : str = "lyon_arboretum_ground.png") :
         # Call the parent class constructor
         pygame.sprite.Sprite.__init__(self)
 
         # Load image assets for ground
-        self.image = pygame.image.load("pngtree-illustration-of-ground-png-image_5027670.png").convert_alpha() # Change with ground assets!
+        self.image = pygame.image.load(image).convert_alpha() # Filler image is Lyon Arboretum ground
 
         # Resize the image
         self.width = width
