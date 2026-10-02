@@ -10,7 +10,7 @@ class Collectible(pygame.sprite.Sprite) :
         super().__init__()
 
         # Load image assets
-        self.image = pygame.image.load("hd-soda-bottle-yellow-lid-crown-cap-png-704081695126642ekq0ebhace.png").convert_alpha()
+        self.image = pygame.image.load("coin.png").convert_alpha()
         self.show_image = True
 
         # Resize the image
