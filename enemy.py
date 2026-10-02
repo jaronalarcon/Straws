@@ -13,7 +13,7 @@ class Enemy(pygame.sprite.Sprite) :
         pygame.sprite.Sprite.__init__(self)
 
         # Load image assets for enemy character
-        self.image = pygame.image.load("pngtree-full-black-trash-bag-png-image_14333046.png").convert_alpha() # Please change with enemy assets!
+        self.image = pygame.image.load("enemy.png").convert_alpha()
 
         # Resize the image
         self.width = 50
