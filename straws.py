@@ -38,13 +38,21 @@ class Camera :
         self.y = 0
 
     def update(self, target : Player) :
-        # Check if the player is almost outside range of vision
+        # Check if the player is almost outside horizontal range of vision
         if target.rect.x >= SCREEN_WIDTH // 2 :
             self.x = target.rect.centerx - self.width // 2
 
         # Maintain original position on screen whenever possible
         else :
             self.x = 0
+
+        # Check if the player if almost outside vertical range of vision
+        if target.rect.y <= SCREEN_HEIGHT / 2 :
+            self.y = target.rect.centery - self.height / 2
+
+        # Maintain original position on screen whenever possible
+        else :
+            self.y = 0
 
     def apply(self, entity) :
         return entity.rect.move(-self.x, -self.y)
