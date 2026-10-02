@@ -16,11 +16,11 @@ class Level :
             Based on Waiāhole Beach Park on the island of O‘ahu."""
         
         # Grounds in the level
-        ground1 = Ground(800, 50, 400, 750)
-        ground2 = Ground(1100, 50, 1600, 750)
-        ground3 = Ground(400, 50, 1600, 575)
-        ground4 = Ground(400, 50, 2100, 375)
-        ground5 = Ground(1000, 50, 3100, 700)
+        ground1 = Ground(800, 50, 400, 750, "waiahole_beach_park_ground.png")
+        ground2 = Ground(1100, 50, 1600, 750, "waiahole_beach_park_ground.png")
+        ground3 = Ground(400, 50, 1600, 575, "waiahole_beach_park_ground.png")
+        ground4 = Ground(400, 50, 2100, 375, "waiahole_beach_park_ground.png")
+        ground5 = Ground(1000, 50, 3100, 700, "waiahole_beach_park_ground.png")
         ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5)
 
         # Player in the level
@@ -120,17 +120,17 @@ class Level :
             Based on Kapolei on the island of O‘ahu. """
 
         # Grounds in the level
-        ground1 = Ground(800, 50, 400, 100) # x: 0 - 800
-        ground2 = Ground(600, 50, 1300, 250) # x: 1000 - 1600
-        ground3 = Ground(400, 50, 2000, 400) # x: 1800 - 2200
-        ground4 = Ground(200, 50, 2500, 400) # x: 2400 - 2600
+        ground1 = Ground(800, 50, 400, 100, "kapolei_ground.png") # x: 0 - 800
+        ground2 = Ground(600, 50, 1300, 250, "kapolei_ground.png") # x: 1000 - 1600
+        ground3 = Ground(400, 50, 2000, 400, "kapolei_ground.png") # x: 1800 - 2200
+        ground4 = Ground(200, 50, 2500, 400, "kapolei_ground.png") # x: 2400 - 2600
         # Floating islands
-        ground5 = Ground(50, 50, 2825, 450) # x: 2800 - 2850
-        ground6 = Ground(50, 50, 3075, 500) # x: 3050 - 3100
-        ground7 = Ground(50, 50, 3325, 550) # x: 3300 - 3350
-        ground8 = Ground(50, 50, 3575, 600) # x: 3550 - 3600
+        ground5 = Ground(50, 50, 2825, 450, "kapolei_ground.png") # x: 2800 - 2850
+        ground6 = Ground(50, 50, 3075, 500, "kapolei_ground.png") # x: 3050 - 3100
+        ground7 = Ground(50, 50, 3325, 550, "kapolei_ground.png") # x: 3300 - 3350
+        ground8 = Ground(50, 50, 3575, 600, "kapolei_ground.png") # x: 3550 - 3600
         # Final goal
-        ground9 = Ground(400, 50, 4050, 800) # x: 3850 - 4250
+        ground9 = Ground(400, 50, 4050, 800, "kapolei_ground.png") # x: 3850 - 4250
         ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8, ground9)
 
         # Player in the level
