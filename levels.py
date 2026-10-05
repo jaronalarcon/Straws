@@ -3,17 +3,25 @@
 
 # Imports
 import pygame
+from background import Background
 from collectible import Collectible
 from enemy import Enemy
 from goal import Goal
 from ground import Ground
 from player import Player
 
+# Screen dimension constants for reference
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 800
+
 class Level :
     @staticmethod
     def level1() -> tuple :
         """ Introductory level of the demo.
             Based on Waiāhole Beach Park on the island of O‘ahu."""
+
+        # Background for the level
+        background = Background("waiahole_beach_park_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
         
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 750, "waiahole_beach_park_ground.png")
@@ -54,7 +62,7 @@ class Level :
         goalpost = Goal(3150, 500)
 
         # Return the assets for the level
-        return (ground_group, player, enemy_group, coin_group, goalpost) # Tuple suggested by AI
+        return (background, ground_group, player, enemy_group, coin_group, goalpost) # Tuple suggested by AI
 
     @staticmethod
     def level2() -> tuple :

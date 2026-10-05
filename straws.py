@@ -14,6 +14,7 @@ from random import SystemRandom # Just for fun
 pygame.init()
 
 # Game asset imports
+from background import Background
 from collectible import Collectible
 from enemy import Enemy
 from ground import Ground
@@ -94,7 +95,7 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
                                                                                                # (This is how we will sneak in the fifth must-have for this demo)
 
     # Get the assets for this level
-    ground_group, player, enemy_group, coin_group, goalpost = level()
+    background, ground_group, player, enemy_group, coin_group, goalpost = level()
 
     # Reset camera for the current level's player
     camera.reset()
@@ -114,6 +115,9 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
             if event.type == pygame.KEYDOWN :
                 if event.key == pygame.K_SPACE :
                     player.jump()
+
+        # Set background image
+        screen.blit(background.image, (0, 0))
 
         # Player, enemy, collectible updates
         player.update(ground_group)
@@ -135,7 +139,7 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
             is_incomplete = False
 
         # Draw assets on screen
-        screen.fill((40, 40, 40))
+        #screen.fill((40, 40, 40)) # This line is quite important but will implement later
         camera.update(player)
         sprites = list(ground_group) + list(enemy_group) + list(coin_group) + [player, goalpost]
         for sprite in sprites :
