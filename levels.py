@@ -69,6 +69,9 @@ class Level :
         """ Intermediate level of the demo.
             Based on Lyon Arboretum on the island of O‘ahu. """
 
+        # Background for the level
+        background = Background("lyon_arboretum_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+
         # Grounds in the level
         ground1 = Ground(600, 50, 300, 425)
         ground2 = Ground(600, 50, 1000, 625)
@@ -120,7 +123,7 @@ class Level :
         goalpost = Goal(1100, -75)
 
         # Return the assets for the level
-        return (ground_group, player, enemy_group, coin_group, goalpost)
+        return (background, ground_group, player, enemy_group, coin_group, goalpost)
 
     @staticmethod
     def level3() -> tuple :
