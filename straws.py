@@ -38,22 +38,34 @@ class Camera :
         self.x = 0
         self.y = 0
 
+        # Camera boundary
+        self.UPPER_BOUND = self.LOWER_BOUND = 0.5 # vertical axis is flipped in pygame
+
+        # Scroll speed
+        self.PAN_SPEED = 1
+
     def update(self, target : Player) :
+        # Define player camera borders
+        player_screen_x = target.rect.centerx - self.x
+        player_screen_y = target.rect.centery - self.y
+
         # Check if the player is almost outside horizontal range of vision
-        if target.rect.x >= SCREEN_WIDTH // 2 :
-            self.x = target.rect.centerx - self.width // 2
+        if player_screen_x < SCREEN_WIDTH * self.UPPER_BOUND and target.rect.centerx > SCREEN_WIDTH // 2 :
+            dx = target.rect.centerx - SCREEN_WIDTH * self.UPPER_BOUND
+            self.x += (dx - self.x) * self.PAN_SPEED
 
-        # Maintain original position on screen whenever possible
-        else :
-            self.x = 0
+        elif player_screen_x > SCREEN_WIDTH * self.LOWER_BOUND :
+            dx = target.rect.centerx - SCREEN_WIDTH * self.LOWER_BOUND
+            self.x += (dx - self.x) * self.PAN_SPEED
 
-        # Check if the player if almost outside vertical range of vision
-        if target.rect.y <= SCREEN_HEIGHT / 2 :
-            self.y = target.rect.centery - self.height / 2
+        # Check if the player is almost outside vertical range of vision
+        if player_screen_y < SCREEN_HEIGHT * self.UPPER_BOUND :
+            dy = target.rect.centery - SCREEN_HEIGHT * self.UPPER_BOUND
+            self.y += (dy - self.y) * self.PAN_SPEED
 
-        # Maintain original position on screen whenever possible
-        else :
-            self.y = 0
+        elif player_screen_y > SCREEN_HEIGHT * self.LOWER_BOUND :
+            dy = target.rect.centery - SCREEN_HEIGHT * self.LOWER_BOUND
+            self.y += (dy - self.y) * self.PAN_SPEED
 
     def apply(self, entity) :
         return entity.rect.move(-self.x, -self.y)
