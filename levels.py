@@ -77,10 +77,10 @@ class Level :
         ground2 = Ground(600, 50, 1000, 625)
         ground3 = Ground(600, 50, 300, 825)
         ground4 = Ground(400, 50, 1600, 775)
-        ground5 = Ground(400, 50, 2100, 575)
+        ground5 = Ground(200, 50, 1050, 0)
         ground6 = Ground(200, 50, 1700, 375)
         ground7 = Ground(200, 50, 1400, 175)
-        ground8 = Ground(200, 50, 1050, 0)
+        ground8 = Ground(400, 50, 2100, 575)
         ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8)
 
         # Player in the level
@@ -90,10 +90,10 @@ class Level :
         enemy1 = Enemy(ground1, 400)
         enemy2 = Enemy(ground3, 400)
         enemy3 = Enemy(ground2, 1200)
-        enemy4 = Enemy(ground5, 2100)
+        enemy4 = Enemy(ground8, 2100)
         enemy5 = Enemy(ground6, 1800)
         enemy6 = Enemy(ground7, 1500)
-        enemy7 = Enemy(ground8, 1100)
+        enemy7 = Enemy(ground5, 1100)
         enemy_group = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7)
 
         # Collectibles in the level

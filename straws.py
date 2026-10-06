@@ -44,7 +44,7 @@ class Camera :
         # Scroll speed
         self.PAN_SPEED = 1
 
-    def update(self, target : Player) :
+    def update(self, grounds, target : Player) :
         # Define player camera borders
         player_screen_x = target.rect.centerx - self.x
         player_screen_y = target.rect.centery - self.y
@@ -54,7 +54,8 @@ class Camera :
             dx = target.rect.centerx - SCREEN_WIDTH * self.UPPER_BOUND
             self.x += (dx - self.x) * self.PAN_SPEED
 
-        elif player_screen_x > SCREEN_WIDTH * self.LOWER_BOUND :
+        elif (player_screen_x > SCREEN_WIDTH * self.LOWER_BOUND and
+              target.rect.centerx < (grounds.sprites()[len(grounds) - 1].rect.x + grounds.sprites()[len(grounds) - 1].width // 2)) :
             dx = target.rect.centerx - SCREEN_WIDTH * self.LOWER_BOUND
             self.x += (dx - self.x) * self.PAN_SPEED
 
@@ -152,7 +153,7 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
 
         # Draw assets on screen
         #screen.fill((40, 40, 40)) # This line is quite important but will implement later
-        camera.update(player)
+        camera.update(ground_group, player)
         sprites = list(ground_group) + list(enemy_group) + list(coin_group) + [player, goalpost]
         for sprite in sprites :
             screen.blit(sprite.image, camera.apply(sprite))
