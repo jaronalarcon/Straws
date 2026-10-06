@@ -55,7 +55,7 @@ class Camera :
             self.x += (dx - self.x) * self.PAN_SPEED
 
         elif (player_screen_x > SCREEN_WIDTH * self.LOWER_BOUND and
-              target.rect.centerx < (grounds.sprites()[len(grounds) - 1].rect.x + grounds.sprites()[len(grounds) - 1].width // 2)) :
+              target.rect.centerx < (grounds.sprites()[len(grounds) - 1].rect.x + grounds.sprites()[len(grounds) - 1].width / 4)) :
             dx = target.rect.centerx - SCREEN_WIDTH * self.LOWER_BOUND
             self.x += (dx - self.x) * self.PAN_SPEED
 
