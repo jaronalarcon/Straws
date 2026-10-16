@@ -59,10 +59,22 @@ class Player(pygame.sprite.Sprite) :
             # Move leftward
             self.velocity.x = -self.move_speed
 
+            # Change the player's image to face left
+            self.image = pygame.image.load("player_left.png").convert_alpha()
+
+            # Resize the image
+            self.image = pygame.transform.scale(self.image, (65, self.height))
+
         # If the player presses the right/D key
         if keys[pygame.K_RIGHT] or keys[pygame.K_d] :
             # Move rightward
             self.velocity.x = self.move_speed
+
+            # Change the player's image to face right
+            self.image = pygame.image.load("player_right.png").convert_alpha()
+
+            # Resize the image
+            self.image = pygame.transform.scale(self.image, (65, self.height))
 
     def jump(self) :
         # Get all keys' statuses
