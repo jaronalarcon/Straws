@@ -26,7 +26,7 @@ class Level :
 
         # Text for the level
         text1 = Text("test", (300, 600))
-        text_group = [text1]
+        text_group = pygame.sprite.Group(text1)
         
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 750, "waiahole_beach_park_ground.png")

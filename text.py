@@ -4,15 +4,24 @@
 # Imports
 import pygame
 
-class Text :
-    def __init__(self, text : str, pos : tuple[int], size : int = 48) :
+class Text(pygame.sprite.Sprite) :
+    def __init__(self, text : str, pos : tuple[int],
+                 font : str = "Baloo 2", size : int = 36, color : tuple[int] = (255, 255, 255)) :
+        # ChatGPT suggested condensing each of the necessary attributes into the constructor for camera manipulation
+        # I previously tried to refactor this class to be a subclass of pygame.sprite.Sprite, but I overlooked some details.
+
+        # Call the parent class constructor
+        super().__init__()
+
         # Specific attributes
         self.text = text
-        self.font = "Baloo 2"
+        self.font = font
         self.size = size
-        self.pos = pos
+        self.color = color
 
-    def get_text(self, color : tuple[int]) -> pygame.Surface :
+        # Create the text surface
         font = pygame.font.SysFont(self.font, self.size)
-        text_surface = font.render(str(self.text), True, (255, 255, 255))
-        return text_surface
+        self.image = font.render(str(self.text), True, (255, 255, 255))
+
+        # Create the position rectangle
+        self.rect = self.image.get_rect(center = pos)

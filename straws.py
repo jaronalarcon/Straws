@@ -129,11 +129,6 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
         # Set background image
         screen.blit(background.image, (0, 0))
 
-        # Draw text, if any
-        for text in text_group :
-            text_surface = text.get_text((255, 255, 255))
-            screen.blit(text_surface, text_surface.get_rect(center = text.pos))
-
         # Player, enemy, collectible updates
         player.update(ground_group)
         enemy_group.update(ground_group, player)
@@ -156,7 +151,7 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
         # Draw assets on screen
         #screen.fill((40, 40, 40)) # This line is quite important but will implement later
         camera.update(ground_group, player)
-        sprites = list(ground_group) + list(enemy_group) + list(coin_group) + [player, goalpost]
+        sprites = list(ground_group) + list(text_group) + list(enemy_group) + list(coin_group) + [player, goalpost]
         for sprite in sprites :
             screen.blit(sprite.image, camera.apply(sprite))
 
