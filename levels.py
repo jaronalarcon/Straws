@@ -25,8 +25,12 @@ class Level :
         background = Background("waiahole_beach_park_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
 
         # Text for the level
-        text1 = Text("test", (300, 600))
-        text_group = pygame.sprite.Group(text1)
+        text1 = Text("Hold D to move right!", (300, 700), color = (0, 0, 0))
+        text2 = Text("Avoid touching the enemies!", (500, 600))
+        text3 = Text("Press SPACE to jump!", (925, 550))
+        text4 = Text("Hold A to move left!", (2100, 600))
+        text5 = Text("Touch the goal marker to complete the level!", (3150, 500))
+        text_group = pygame.sprite.Group(text1, text2, text3, text4, text5)
         
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 750, "waiahole_beach_park_ground.png")
@@ -60,11 +64,12 @@ class Level :
         coin10 = Collectible(2550, 400)
         coin11 = Collectible(2600, 500)
         coin12 = Collectible(2650, 600)
+        coin13 = Collectible(2100, 725)
         coin_group = pygame.sprite.Group(coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
-                                         coin11, coin12)
+                                         coin11, coin12, coin13)
 
         # Goal in the level
-        goalpost = Goal(3150, 500)
+        goalpost = Goal(3150, 600)
 
         # Return the assets for the level
         return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group) # Tuple suggested by AI
@@ -128,7 +133,7 @@ class Level :
                                          coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coin19)
 
         # Goal in the level
-        goalpost = Goal(1100, -75)
+        goalpost = Goal(1000, -75)
 
         # Return the assets for the level
         return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group)

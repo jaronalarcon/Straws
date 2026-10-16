@@ -113,8 +113,8 @@ class Enemy(pygame.sprite.Sprite) :
         ### IMPORTANT: The enemy's height is defined by the top of its body.
         
         # Kill the player if the player character collides with an enemy
-        if abs(self.rect.x - player.rect.x) <= self.width and player.rect.y + player.height > self.rect.y and player.rect.y + player.height <= self.rect.y + self.height :
-            print("NYEH HEH HEH!") if SystemRandom().randint(0, 99) == 0 else print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just like the others. Was it ever an escape, or was it delaying the inevitable?") # Easter egg
+        if pygame.sprite.collide_rect(self, player) :
+            print("NYEH HEH HEH!") if SystemRandom().randint(0, 99) == 0 else print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just it stole the lives of the others.\nWas it ever an escape, or was it delaying the inevitable?") # Easter egg
             pygame.quit(); sys.exit()
 
     def draw(self, surface) :

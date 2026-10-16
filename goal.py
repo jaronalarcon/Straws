@@ -10,7 +10,7 @@ class Goal(pygame.sprite.Sprite) :
         pygame.sprite.Sprite.__init__(self)
 
         # Load image assets
-        self.image = pygame.image.load("red-triangular-pennant-flag-on-pole-isolated-on-transparent-background-png.png").convert_alpha() # Replace with actual goalpost assets
+        self.image = pygame.image.load("goal.png").convert_alpha()
 
         # Resize image
         self.width = 50
