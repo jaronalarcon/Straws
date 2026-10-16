@@ -29,7 +29,7 @@ class Level :
         text2 = Text("Avoid touching the enemies!", (500, 600))
         text3 = Text("Press SPACE to jump!", (925, 550))
         text4 = Text("Hold A to move left!", (2100, 600))
-        text5 = Text("Touch the goal marker to complete the level!", (3150, 500))
+        text5 = Text("Touch the goal marker to complete the level!", (5100, 500))
         text_group = pygame.sprite.Group(text1, text2, text3, text4, text5)
         
         # Grounds in the level
@@ -38,7 +38,10 @@ class Level :
         ground3 = Ground(400, 50, 1600, 575, "waiahole_beach_park_ground.png")
         ground4 = Ground(400, 50, 2100, 375, "waiahole_beach_park_ground.png")
         ground5 = Ground(1000, 50, 3100, 700, "waiahole_beach_park_ground.png")
-        ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5)
+        ground6 = Ground(200, 50, 3900, 550, "waiahole_beach_park_ground.png")
+        ground7 = Ground(200, 50, 4300, 400, "waiahole_beach_park_ground.png")
+        ground8 = Ground(500, 50, 4950, 750, "waiahole_beach_park_ground.png")
+        ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8)
 
         # Player in the level
         player = Player(ground1)
@@ -65,11 +68,23 @@ class Level :
         coin11 = Collectible(2600, 500)
         coin12 = Collectible(2650, 600)
         coin13 = Collectible(2100, 725)
+        coin14 = Collectible(2900, 650)
+        coin15 = Collectible(3000, 550)
+        coin16 = Collectible(3100, 450)
+        coin17 = Collectible(3200, 550)
+        coin18 = Collectible(3300, 650)
+        coin19 = Collectible(3950, 525)
+        coin20 = Collectible(4050, 450)
+        coin21 = Collectible(4150, 375)
+        coin22 = Collectible(4750, 725)
+        coin23 = Collectible(4850, 725)
+        coin24 = Collectible(4950, 725)
         coin_group = pygame.sprite.Group(coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
-                                         coin11, coin12, coin13)
+                                         coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coin19, coin20,
+                                         coin21, coin22, coin23, coin24)
 
         # Goal in the level
-        goalpost = Goal(3150, 600)
+        goalpost = Goal(5100, 600)
 
         # Return the assets for the level
         return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group) # Tuple suggested by AI
@@ -133,7 +148,7 @@ class Level :
                                          coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coin19)
 
         # Goal in the level
-        goalpost = Goal(1000, -75)
+        goalpost = Goal(1050, -75)
 
         # Return the assets for the level
         return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group)
