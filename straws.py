@@ -20,6 +20,7 @@ from enemy import Enemy
 from ground import Ground
 from levels import Level
 from player import Player
+from text import Text
 
 # Window and in-game clock
 SCREEN_WIDTH = 1200
@@ -104,7 +105,7 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
                                                                                                # (This is how we will sneak in the fifth must-have for this demo)
 
     # Get the assets for this level
-    background, ground_group, player, enemy_group, coin_group, goalpost = level()
+    background, ground_group, player, enemy_group, coin_group, goalpost, text_group = level()
 
     # Reset camera for the current level's player
     camera.reset()
@@ -127,6 +128,11 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
 
         # Set background image
         screen.blit(background.image, (0, 0))
+
+        # Draw text, if any
+        for text in text_group :
+            text_surface = text.get_text((255, 255, 255))
+            screen.blit(text_surface, text_surface.get_rect(center = text.pos))
 
         # Player, enemy, collectible updates
         player.update(ground_group)

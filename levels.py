@@ -9,6 +9,7 @@ from enemy import Enemy
 from goal import Goal
 from ground import Ground
 from player import Player
+from text import Text
 
 # Screen dimension constants for reference
 SCREEN_WIDTH = 1200
@@ -22,6 +23,10 @@ class Level :
 
         # Background for the level
         background = Background("waiahole_beach_park_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        # Text for the level
+        text1 = Text("test", (300, 600))
+        text_group = [text1]
         
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 750, "waiahole_beach_park_ground.png")
@@ -62,7 +67,7 @@ class Level :
         goalpost = Goal(3150, 500)
 
         # Return the assets for the level
-        return (background, ground_group, player, enemy_group, coin_group, goalpost) # Tuple suggested by AI
+        return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group) # Tuple suggested by AI
 
     @staticmethod
     def level2() -> tuple :
@@ -71,6 +76,9 @@ class Level :
 
         # Background for the level
         background = Background("lyon_arboretum_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        # Text for the level (none)
+        text_group = []
 
         # Grounds in the level
         ground1 = Ground(600, 50, 300, 425)
@@ -123,7 +131,7 @@ class Level :
         goalpost = Goal(1100, -75)
 
         # Return the assets for the level
-        return (background, ground_group, player, enemy_group, coin_group, goalpost)
+        return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group)
 
     @staticmethod
     def level3() -> tuple :
@@ -132,6 +140,9 @@ class Level :
 
         # Background for the level
         background = Background("kapolei_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        # Text for the level (none)
+        text_group = []
 
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 100, "kapolei_ground.png") # x: 0 - 800
@@ -183,7 +194,7 @@ class Level :
         goalpost = Goal(4050, 750)
 
         # Return the assets for the level
-        return (background, ground_group, player, enemy_group, coin_group, goalpost)
+        return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group)
 
     @staticmethod
     def get_all_levels() :
