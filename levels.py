@@ -130,6 +130,9 @@ class Level :
         """ Final level of the demo.
             Based on Kapolei on the island of O‘ahu. """
 
+        # Background for the level
+        background = Background("kapolei_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 100, "kapolei_ground.png") # x: 0 - 800
         ground2 = Ground(600, 50, 1300, 250, "kapolei_ground.png") # x: 1000 - 1600
@@ -180,7 +183,7 @@ class Level :
         goalpost = Goal(4050, 750)
 
         # Return the assets for the level
-        return (ground_group, player, enemy_group, coin_group, goalpost)
+        return (background, ground_group, player, enemy_group, coin_group, goalpost)
 
     @staticmethod
     def get_all_levels() :
