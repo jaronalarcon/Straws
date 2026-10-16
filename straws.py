@@ -55,17 +55,13 @@ class Camera :
             self.x += (dx - self.x) * self.PAN_SPEED
 
         elif (player_screen_x > SCREEN_WIDTH * self.LOWER_BOUND and
-              target.rect.centerx < (grounds.sprites()[len(grounds) - 1].rect.x + grounds.sprites()[len(grounds) - 1].width / 4)) :
+              target.rect.centerx < grounds.sprites()[len(grounds.sprites()) - 1].rect.right) :
             dx = target.rect.centerx - SCREEN_WIDTH * self.LOWER_BOUND
             self.x += (dx - self.x) * self.PAN_SPEED
 
         # Check if the player is almost outside vertical range of vision
-        if player_screen_y < SCREEN_HEIGHT * self.UPPER_BOUND :
+        if target.rect.centery < SCREEN_HEIGHT // 2 :
             dy = target.rect.centery - SCREEN_HEIGHT * self.UPPER_BOUND
-            self.y += (dy - self.y) * self.PAN_SPEED
-
-        elif player_screen_y > SCREEN_HEIGHT * self.LOWER_BOUND :
-            dy = target.rect.centery - SCREEN_HEIGHT * self.LOWER_BOUND
             self.y += (dy - self.y) * self.PAN_SPEED
 
     def apply(self, entity) :
