@@ -108,8 +108,13 @@ class Level :
         ground5 = Ground(200, 50, 1050, 0)
         ground6 = Ground(200, 50, 1700, 375)
         ground7 = Ground(200, 50, 1400, 175)
-        ground8 = Ground(400, 50, 2100, 575)
-        ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8)
+        ground8 = Ground(100, 50, 400, -25)
+        ground9 = Ground(100, 50, 1425, -125)
+        ground10 = Ground(200, 50, 1825, -105)
+        ground11 = Ground(100, 50, 700, 0)
+        ground12 = Ground(400, 50, 2100, 575)
+        ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8, ground9, ground10,
+                                           ground11, ground12)
 
         # Player in the level
         player = Player(ground1)
@@ -122,7 +127,8 @@ class Level :
         enemy5 = Enemy(ground6, 1800)
         enemy6 = Enemy(ground7, 1500)
         enemy7 = Enemy(ground5, 1100)
-        enemy_group = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7)
+        enemy8 = Enemy(ground10, 1900)
+        enemy_group = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8)
 
         # Collectibles in the level
         coin1 = Collectible(550, 400)
@@ -144,11 +150,19 @@ class Level :
         coin17 = Collectible(2200, 550)
         coin18 = Collectible(1700, 350)
         coin19 = Collectible(1400, 150)
+        coin20 = Collectible(1000, -25)
+        coin21 = Collectible(1100, -25)
+        coin22 = Collectible(1425, -150)
+        coin23 = Collectible(1425, -200)
+        coin24 = Collectible(1425, -250)
+        coin25 = Collectible(1800, -130)
+        coin26 = Collectible(1875, -130)
         coin_group = pygame.sprite.Group(coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
-                                         coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coin19)
+                                         coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coin19, coin20,
+                                         coin21, coin22, coin23, coin24, coin25, coin26)
 
         # Goal in the level
-        goalpost = Goal(1050, -75)
+        goalpost = Goal(400, -100)
 
         # Return the assets for the level
         return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group)
@@ -165,9 +179,9 @@ class Level :
         text_group = []
 
         # Grounds in the level
-        ground1 = Ground(800, 50, 400, 100, "kapolei_ground.png") # x: 0 - 800
+        ground1 = Ground(900, 50, 450, 100, "kapolei_ground.png") # x: 0 - 900
         ground2 = Ground(600, 50, 1300, 250, "kapolei_ground.png") # x: 1000 - 1600
-        ground3 = Ground(400, 50, 2000, 400, "kapolei_ground.png") # x: 1800 - 2200
+        ground3 = Ground(500, 50, 1950, 400, "kapolei_ground.png") # x: 1700 - 2200
         ground4 = Ground(200, 50, 2500, 400, "kapolei_ground.png") # x: 2400 - 2600
         # Floating islands
         ground5 = Ground(50, 50, 2825, 450, "kapolei_ground.png") # x: 2800 - 2850
@@ -183,11 +197,14 @@ class Level :
 
         # Enemies in the level
         enemy1 = Enemy(ground1, 400)
-        enemy2 = Enemy(ground2, 1600)
-        enemy3 = Enemy(ground3, 2200)
-        enemy4 = Enemy(ground4, 2600)
-        enemy5 = Enemy(ground9, 4250)
-        enemy_group = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5)
+        enemy2 = Enemy(ground1, 600)
+        enemy3 = Enemy(ground1, 800)
+        enemy4 = Enemy(ground2, 1500)
+        enemy5 = Enemy(ground2, 1600)
+        enemy6 = Enemy(ground3, 2200)
+        enemy7 = Enemy(ground4, 2600)
+        enemy8 = Enemy(ground9, 4250)
+        enemy_group = pygame.sprite.Group(enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8)
 
         # Collectibles in the level
         coin1 = Collectible(725, 75)
