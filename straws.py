@@ -14,13 +14,9 @@ from time import sleep
 pygame.init()
 
 # Game asset imports
-from background import Background
-from collectible import Collectible
-from enemy import Enemy
-from ground import Ground
+from cutscene import Cutscene
 from levels import Level
 from player import Player
-from text import Text
 
 # Window and in-game clock
 SCREEN_WIDTH = 1200
@@ -148,25 +144,8 @@ while running :
             clock.tick(50)
     
     # End screen procedure
-    screen.fill((0, 0, 0))
-    pygame.display.flip()
+    Cutscene.end_screen(screen)
 
-    end_font = pygame.font.SysFont("Baloo 2", 36)
-    end_text1 = end_font.render("As the sun sets on the final day, you close your eyes", True, (255, 255, 255))
-    end_text2 = end_font.render("and let yourself be embraced by the land.", True, (255, 255, 255))
-    end_text3 = end_font.render("The world which you were once promised,", True, (255, 255, 255))
-    end_text4 = end_font.render("some world once forsaken,", True, (255, 255, 255))
-    end_text5 = end_font.render("is now a world reborn.", True, (255, 255, 255))
-
-    screen.blit(end_text1, (SCREEN_WIDTH // 2 - end_text1.get_width() // 2, 100))
-    screen.blit(end_text2, (SCREEN_WIDTH // 2 - end_text2.get_width() // 2, 150))
-    screen.blit(end_text3, (200, 400))
-    screen.blit(end_text4, (500, 450))
-    screen.blit(end_text5, (700, 500))
-
-    pygame.display.flip()
-
-    sleep(5) # Pause to let the player read the ending
     running = False # End the game loop
 
 # Quit game
