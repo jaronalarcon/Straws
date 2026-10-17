@@ -125,7 +125,7 @@ while running :
             # Check collected items
             if pygame.sprite.spritecollide(player, coin_group, True) :
                 player.score += 1
-                print(f"Each cap reminds you of what can be. Of what will be.")
+                print(f"Each cap reminds you of what can be. Of what will be.") # Do we need this?
 
             # Check goalpost interaction
             if pygame.sprite.collide_rect(player, goalpost) :
@@ -170,7 +170,6 @@ while running :
     running = False # End the game loop
 
 # Quit game
-print("As the sun sets on the final day, you close your eyes and let yourself be embraced by the land. The world which you were once promised, some world once forsaken, is now a world reborn.\n")
-print("Thank you for playing our game! We hope you enjoyed playing this demo as much as we did making it.\n--Operation Straws Team")
+print("Thank you for playing our game! We hope you enjoyed playing this demo as much as we did making it.\n--Straws Development Team")
 pygame.quit()
 sys.exit()
