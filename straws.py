@@ -7,7 +7,6 @@
 
 # Module imports
 import pygame, sys
-from json import load
 from random import SystemRandom # Just for fun
 
 # Initialize pygame
@@ -79,31 +78,11 @@ camera = Camera()
 # Get levels
 levels = Level.get_all_levels()
 
-# Level number tracker
-level_number = 0
-
 # Player score consistency tracker variable
 total_score = 0
 
-# Open research file
-with open("research.json", "r") as i :
-    research = load(i)
-
-# Dictionary matching levels to research
-levels_to_locations = {1 : "waiahole_beach_park",
-                       2 : "lyon_arboretum",
-                       3 : "kapolei"}
-
 # Leveled game loop
 for level in levels : # Body of loop debugged by AI, individual lines of code written by us
-    # Increment level number
-    level_number += 1
-
-    # Introduce level
-    print(f"\033[4mLevel {level_number}\033[0m")
-    print(f"Fun fact: {SystemRandom().choice(research[levels_to_locations[level_number]])}\n") # Get a fun fact about the location
-                                                                                               # (This is how we will sneak in the fifth must-have for this demo)
-
     # Get the assets for this level
     background, ground_group, player, enemy_group, coin_group, goalpost, text_group = level()
 

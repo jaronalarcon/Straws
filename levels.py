@@ -3,6 +3,8 @@
 
 # Imports
 import pygame
+from json import load
+from random import SystemRandom
 from background import Background
 from collectible import Collectible
 from enemy import Enemy
@@ -21,16 +23,21 @@ class Level :
         """ Introductory level of the demo.
             Based on Waiāhole Beach Park on the island of O‘ahu."""
 
+        # Get information for level
+        with open("research.json", "r") as r :
+            info = load(r)["waiahole_beach_park"]
+
         # Background for the level
         background = Background("waiahole_beach_park_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
 
         # Text for the level
-        text1 = Text("Hold D to move right!", (300, 700), color = (0, 0, 0))
-        text2 = Text("Avoid touching the enemies!", (500, 600))
-        text3 = Text("Press SPACE to jump!", (925, 550))
-        text4 = Text("Hold A to move left!", (2100, 600))
-        text5 = Text("Touch the goal marker to complete the level!", (5100, 500))
-        text_group = pygame.sprite.Group(text1, text2, text3, text4, text5)
+        text1 = Text(SystemRandom().choice(info), (2600, 50), color = (0, 0, 0))
+        text2 = Text("Hold D to move right!", (300, 700), color = (0, 0, 0))
+        text3 = Text("Avoid touching the enemies!", (500, 600))
+        text4 = Text("Press SPACE to jump!", (925, 550))
+        text5 = Text("Hold A to move left!", (2100, 600))
+        text6 = Text("Touch the goal marker to complete the level!", (5100, 600))
+        text_group = pygame.sprite.Group(text1, text2, text3, text4, text5, text6)
         
         # Grounds in the level
         ground1 = Ground(800, 50, 400, 750, "waiahole_beach_park_ground.png")
@@ -84,7 +91,7 @@ class Level :
                                          coin21, coin22, coin23, coin24)
 
         # Goal in the level
-        goalpost = Goal(5100, 600)
+        goalpost = Goal(5100, 700)
 
         # Return the assets for the level
         return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group) # Tuple suggested by AI
@@ -94,11 +101,16 @@ class Level :
         """ Intermediate level of the demo.
             Based on Lyon Arboretum on the island of O‘ahu. """
 
+        # Get information for level
+        with open("research.json", "r") as r :
+            info = load(r)["lyon_arboretum"]
+
         # Background for the level
         background = Background("lyon_arboretum_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        # Text for the level (none)
-        text_group = []
+        # Text for the level
+        text1 = Text(SystemRandom().choice(info), (1600, -525), color = (0, 0, 0))
+        text_group = pygame.sprite.Group(text1)
 
         # Grounds in the level
         ground1 = Ground(600, 50, 300, 425)
@@ -162,7 +174,7 @@ class Level :
                                          coin21, coin22, coin23, coin24, coin25, coin26)
 
         # Goal in the level
-        goalpost = Goal(400, -100)
+        goalpost = Goal(400, -75)
 
         # Return the assets for the level
         return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group)
@@ -172,11 +184,16 @@ class Level :
         """ Final level of the demo.
             Based on Kapolei on the island of O‘ahu. """
 
+        # Get information for level
+        with open("research.json", "r") as r :
+            info = load(r)["kapolei"]
+
         # Background for the level
         background = Background("kapolei_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        # Text for the level (none)
-        text_group = []
+        # Text for the level
+        text1 = Text(SystemRandom().choice(info), (3000, 200), color = (0, 0, 0))
+        text_group = pygame.sprite.Group(text1)
 
         # Grounds in the level
         ground1 = Ground(900, 50, 450, 100, "kapolei_ground.png") # x: 0 - 900
