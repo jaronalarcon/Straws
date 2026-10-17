@@ -8,6 +8,7 @@
 # Module imports
 import pygame, sys
 from random import SystemRandom # Just for fun
+from time import sleep
 
 # Initialize pygame
 pygame.init()
@@ -81,65 +82,92 @@ levels = Level.get_all_levels()
 # Player score consistency tracker variable
 total_score = 0
 
-# Leveled game loop
-for level in levels : # Body of loop debugged by AI, individual lines of code written by us
-    # Get the assets for this level
-    background, ground_group, player, enemy_group, coin_group, goalpost, text_group = level()
+# Loop control variable
+running = True
 
-    # Reset camera for the current level's player
-    camera.reset()
+# Main game loop
+while running :
+    # Leveled game loop
+    for level in levels : # Body of loop debugged by AI, individual lines of code written by us
+        # Get the assets for this level
+        background, ground_group, player, enemy_group, coin_group, goalpost, text_group = level()
 
-    # Get the player's score thus far
-    player.set_score(total_score)
+        # Reset camera for the current level's player
+        camera.reset()
 
-    # Set the next level as incomplete
-    is_incomplete = True
-    while is_incomplete :
-        # Player updates and general event loop
-        for event in pygame.event.get() :
-            if event.type == pygame.QUIT :
-                pygame.quit(); sys.exit()
+        # Get the player's score thus far
+        player.set_score(total_score)
 
-            # Jump event
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE :
-                player.jump()
+        # Set the next level as incomplete
+        is_incomplete = True
+        while is_incomplete :
+            # Player updates and general event loop
+            for event in pygame.event.get() :
+                if event.type == pygame.QUIT :
+                    pygame.quit(); sys.exit()
 
-        # Set background image
-        screen.blit(background.image, (0, 0))
+                # Jump event
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE :
+                    player.jump()
 
-        # Write player score on the background
-        score_font = pygame.font.SysFont("Baloo 2", 48)
-        screen.blit(score_font.render(f"Score: {player.score}", True, (25, 25, 150)), (10, 10))
+            # Set background image
+            screen.blit(background.image, (0, 0))
 
-        # Player, enemy, collectible updates
-        player.update(ground_group)
-        enemy_group.update(ground_group, player)
-        coin_group.update()
+            # Write player score on the background
+            score_font = pygame.font.SysFont("Baloo 2", 48)
+            screen.blit(score_font.render(f"Score: {player.score}", True, (25, 25, 150)), (10, 10))
 
-        # Check collected items
-        if pygame.sprite.spritecollide(player, coin_group, True) :
-            player.score += 1
-            print(f"Each cap reminds you of what can be. Of what will be.")
+            # Player, enemy, collectible updates
+            player.update(ground_group)
+            enemy_group.update(ground_group, player)
+            coin_group.update()
 
-        # Check goalpost interaction
-        if pygame.sprite.collide_rect(player, goalpost) :
-            # Store player's score for this level externally
-            total_score = player.score
+            # Check collected items
+            if pygame.sprite.spritecollide(player, coin_group, True) :
+                player.score += 1
+                print(f"Each cap reminds you of what can be. Of what will be.")
 
-            # Break the game loop for this level
-            is_incomplete = False
+            # Check goalpost interaction
+            if pygame.sprite.collide_rect(player, goalpost) :
+                # Store player's score for this level externally
+                total_score = player.score
 
-        # Draw assets on screen
-        camera.update(ground_group, player)
-        sprites = list(ground_group) + list(text_group) + list(enemy_group) + list(coin_group) + [player, goalpost]
-        for sprite in sprites :
-            screen.blit(sprite.image, camera.apply(sprite))
+                # Break the game loop for this level
+                is_incomplete = False
 
-        # Update the entire screen
-        pygame.display.flip()
+            # Draw assets on screen
+            camera.update(ground_group, player)
+            sprites = list(ground_group) + list(text_group) + list(enemy_group) + list(coin_group) + [player, goalpost]
+            for sprite in sprites :
+                screen.blit(sprite.image, camera.apply(sprite))
 
-        # Update the game clock
-        clock.tick(50)
+            # Update the entire screen
+            pygame.display.flip()
+
+            # Update the game clock
+            clock.tick(50)
+    
+    # End screen procedure
+    screen.fill((0, 0, 0))
+    pygame.display.flip()
+
+    end_font = pygame.font.SysFont("Baloo 2", 36)
+    end_text1 = end_font.render("As the sun sets on the final day, you close your eyes", True, (255, 255, 255))
+    end_text2 = end_font.render("and let yourself be embraced by the land.", True, (255, 255, 255))
+    end_text3 = end_font.render("The world which you were once promised,", True, (255, 255, 255))
+    end_text4 = end_font.render("some world once forsaken,", True, (255, 255, 255))
+    end_text5 = end_font.render("is now a world reborn.", True, (255, 255, 255))
+
+    screen.blit(end_text1, (SCREEN_WIDTH // 2 - end_text1.get_width() // 2, 100))
+    screen.blit(end_text2, (SCREEN_WIDTH // 2 - end_text2.get_width() // 2, 150))
+    screen.blit(end_text3, (200, 400))
+    screen.blit(end_text4, (500, 450))
+    screen.blit(end_text5, (700, 500))
+
+    pygame.display.flip()
+
+    sleep(5) # Pause to let the player read the ending
+    running = False # End the game loop
 
 # Quit game
 print("As the sun sets on the final day, you close your eyes and let yourself be embraced by the land. The world which you were once promised, some world once forsaken, is now a world reborn.\n")
