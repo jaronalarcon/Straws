@@ -76,6 +76,14 @@ class Player(pygame.sprite.Sprite) :
             # Resize the image
             self.image = pygame.transform.scale(self.image, (65, self.height))
 
+        # If the player presses the down/S key
+        if keys[pygame.K_DOWN] or keys[pygame.K_s] :
+            # Change the player's image to face forward (towards the user)
+            self.image = pygame.image.load("player.png").convert_alpha()
+
+            # Resize the image
+            self.image = pygame.transform.scale(self.image, (self. width, self.height))
+
     def jump(self) :
         # Get all keys' statuses
         keys = pygame.key.get_pressed()
