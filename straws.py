@@ -101,12 +101,15 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
                 pygame.quit(); sys.exit()
 
             # Jump event
-            if event.type == pygame.KEYDOWN :
-                if event.key == pygame.K_SPACE :
-                    player.jump()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE :
+                player.jump()
 
         # Set background image
         screen.blit(background.image, (0, 0))
+
+        # Write player score on the background
+        score_font = pygame.font.SysFont("Baloo 2", 48)
+        screen.blit(score_font.render(f"Score: {player.score}", True, (25, 25, 150)), (10, 10))
 
         # Player, enemy, collectible updates
         player.update(ground_group)
@@ -114,10 +117,9 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
         coin_group.update()
 
         # Check collected items
-        collected = pygame.sprite.spritecollide(player, coin_group, True)
-        if collected :
+        if pygame.sprite.spritecollide(player, coin_group, True) :
             player.score += 1
-            print(f"Each cap reminds you of what can be. Of what will be.\nScore: {player.score}\n") # Debugging... with LORE
+            print(f"Each cap reminds you of what can be. Of what will be.")
 
         # Check goalpost interaction
         if pygame.sprite.collide_rect(player, goalpost) :
@@ -128,7 +130,6 @@ for level in levels : # Body of loop debugged by AI, individual lines of code wr
             is_incomplete = False
 
         # Draw assets on screen
-        #screen.fill((40, 40, 40)) # This line is quite important but will implement later
         camera.update(ground_group, player)
         sprites = list(ground_group) + list(text_group) + list(enemy_group) + list(coin_group) + [player, goalpost]
         for sprite in sprites :
