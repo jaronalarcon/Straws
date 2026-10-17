@@ -12,6 +12,27 @@ I could've blinked; I could've died. That time was all a blur. But the next thin
 
 ----------
 
-*Straws* is a two-dimensional (2D) platformer that tells the unfortunate story of a world overrun by the evils of garbage and the fortunate story of a shrewd, compassionate player that works to restore its vitality—you. Set in the near future of a distant universe that is very similar to ours but has been bewitched by a malicious force, you must traverse the desolate and unforgiving terrain, survive hordes of bloodthirsty monsters, and uncover the secrets that consumed the world you were transported to—the same secrets that could consume your own.
+*Straws* is a two-dimensional (2D), single-player platformer that tells the unfortunate story of a world overrun by the evils of garbage and the fortunate story of a shrewd, compassionate player that works to restore its vitality—you. Set in the near future of a distant universe that is very similar to ours but has been bewitched by a malicious force, you must traverse the desolate and unforgiving terrain, survive hordes of bloodthirsty monsters, and uncover the secrets that consumed the world you were transported to—the same secrets that could consume your own.
 
 Each level of *Straws* is based on a location in Hawaii to curate a collection of observations of the effects—both existing and potential—of litter on Hawaii's various landscapes and environments, from the dense forests of Mount Wai‘ale‘ale on the island of Kaua‘i to the urbanized city of Honolulu on the island of O‘ahu.
+
+Currently, this version of *Straws* is a short demonstration of the full gameplay that we envision implementing; as such, not all aspects of gameplay come with fully implemented features.
+
+## Required Technology and Setup
+
+*Straws* can **only** be played on a laptop and is incompatible with other devices such as mobile phones and tablets. The playable game comprises several executable Python files that all use the ```pygame``` graphics module. In order to play this game, take the following steps to ensure your device can run this game:
+
+- Check that you have an integrated development environment (IDE) with a Python interpreter.
+- Check that the interpreter is running version 3.10.11 of Python or later.
+- Check that the IDE has access to the ```pygame``` module.
+
+If your device passes all three of these checks, you can download and open the compressed ```.zip``` file in this repository. After doing so, we recommend doing one more set of checks to ensure the quality of your gaming experience, including the following steps:
+
+- Check that the folder contains all of the executable files and image assets for this game. It is not necessary for this README to be in the folder.
+- Check that the main file has the current version of *Straws*: Beta 1.2.40
+
+If your download passes these checks as well, your device is finally ready to play this game!
+
+----------
+
+We wish you the best of luck in your adventures. Change starts when someone looks up.

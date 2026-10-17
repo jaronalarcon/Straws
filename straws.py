@@ -5,6 +5,9 @@
 # 
 # Check the README.md file for more information about this project.
 
+# Version number
+version = "Beta 1.2.40"
+
 # Module imports
 import pygame, sys
 from random import SystemRandom # Just for fun
@@ -22,7 +25,7 @@ from player import Player
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # Create window
-pygame.display.set_caption("Straws") # Title of window
+pygame.display.set_caption(f"Straws - {version}") # Title of window
 clock = pygame.time.Clock() # Set game clock
 
 # Camera assets
