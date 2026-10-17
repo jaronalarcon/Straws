@@ -192,7 +192,7 @@ class Level :
         background = Background("kapolei_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
 
         # Text for the level
-        text1 = Text(SystemRandom().choice(info), (3000, 200), color = (0, 0, 0))
+        text1 = Text(SystemRandom().choice(info), (3200, 200), color = (0, 0, 0))
         text_group = pygame.sprite.Group(text1)
 
         # Grounds in the level
