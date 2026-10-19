@@ -6,7 +6,7 @@
 # Check the README.md file for more information about this project.
 
 # Version number
-version = "Beta 1.2.41"
+version = "Beta 1.2.42"
 
 # Module imports
 import pygame, sys

@@ -192,7 +192,7 @@ class Level :
         background = Background("kapolei_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
 
         # Text for the level
-        text1 = Text(SystemRandom().choice(info), (3200, 200), color = (0, 0, 0))
+        text1 = Text(SystemRandom().choice(info), (5100, -600), color = (0, 0, 0))
         text_group = pygame.sprite.Group(text1)
 
         # Grounds in the level
@@ -222,6 +222,7 @@ class Level :
         # Third stack
         ground19 = Ground(100, 50, 5425, 0, "kapolei_ground.png")   # x: 5375 - 5475
         ground20 = Ground(50, 50, 5425, -200, "kapolei_ground.png") # x: 5400 - 5450
+                                                                    # Not the right-most platform but distance is off anyway
         ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8, ground9, ground10,
                                            ground11, ground12, ground13, ground14, ground15, ground16, ground17, ground18, ground19, ground20)
 
