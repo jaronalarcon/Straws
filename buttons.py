@@ -1,8 +1,7 @@
 import pygame
 import sys
 import button
-#some info from AI -_-
-#goal - make an menu w/ start & end screen
+#some info from AI 
 #starting from here, got these info from a pygame beginner tutorial from youtube
 #Initialize Pygame
 pygame.init()
