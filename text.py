@@ -19,9 +19,10 @@ class Text(pygame.sprite.Sprite) :
         self.size = size
         self.color = color
 
-        # Create the text surface
+        # Create the font and text surface
+        # Pygame, like tkinter, requires a font object for rendering text
         font = pygame.font.SysFont(self.font, self.size)
         self.image = font.render(str(self.text), True, self.color)
 
-        # Create the position rectangle
+        # Create the text position rectangle
         self.rect = self.image.get_rect(center = pos)

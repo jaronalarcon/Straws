@@ -6,7 +6,7 @@
 # Check the README.md file for more information about this project.
 
 # Version number
-version = "Beta 1.2.56"
+version = "Beta 1.2.57"
 
 # Module imports
 import pygame, sys
@@ -38,30 +38,25 @@ class Camera :
         self.x = 0
         self.y = 0
 
-        # Camera boundary
-        self.UPPER_BOUND = self.LOWER_BOUND = 0.5 # vertical axis is flipped in pygame
-
         # Scroll speed
         self.PAN_SPEED = 1
 
     def update(self, grounds, target : Player) :
-        # Define player camera borders
-        player_screen_x = target.rect.centerx - self.x
-        player_screen_y = target.rect.centery - self.y
-
-        # Check if the player is almost outside horizontal range of vision
-        if player_screen_x < SCREEN_WIDTH * self.UPPER_BOUND and target.rect.centerx > SCREEN_WIDTH // 2 :
-            dx = target.rect.centerx - SCREEN_WIDTH * self.UPPER_BOUND
+        # Check if the player is almost outside horizontal range of vision from the left
+        if target.rect.centerx - self.x < SCREEN_WIDTH * 0.5 and target.rect.centerx > SCREEN_WIDTH // 2 :
+            # Adjust the camera's position by the displacement of the player from the center of the screen
+            dx = target.rect.centerx - SCREEN_WIDTH * 0.5
             self.x += (dx - self.x) * self.PAN_SPEED
 
-        elif (player_screen_x > SCREEN_WIDTH * self.LOWER_BOUND and
+        # Check if the player is almost outside horizontal range of vision from the right
+        elif (target.rect.centerx - self.x > SCREEN_WIDTH * 0.5 and
               target.rect.centerx < grounds.sprites()[len(grounds.sprites()) - 1].rect.right) :
-            dx = target.rect.centerx - SCREEN_WIDTH * self.LOWER_BOUND
+            dx = target.rect.centerx - SCREEN_WIDTH * 0.5
             self.x += (dx - self.x) * self.PAN_SPEED
 
         # Check if the player is almost outside vertical range of vision
         if target.rect.centery < SCREEN_HEIGHT // 2 :
-            dy = target.rect.centery - SCREEN_HEIGHT * self.UPPER_BOUND
+            dy = target.rect.centery - SCREEN_HEIGHT * 0.5
             self.y += (dy - self.y) * self.PAN_SPEED
 
     def apply(self, entity) :
@@ -81,7 +76,7 @@ levels = Level.get_all_levels()
 # Player score consistency tracker variable
 total_score = 0
 
-# Loop control variable
+# Overall loop control variable
 running = True
 
 # Main game loop
@@ -89,18 +84,26 @@ while running :
     # Title screen procedure
     bg, title_text, start_button, end_button = Cutscene.title_screen()
 
+    # Inner game loop for title screen
     is_not_started = True
     while is_not_started :
+        # Standard exit event check
         for event in pygame.event.get():
                 if event.type == pygame.QUIT :
                     pygame.quit(); sys.exit()
-                
+
+                # Check if the mouse is left-clicked
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1 :
+                        # Check if the mouse clicked on the start button
+                        # Collision method suggested by AI
                         if start_button.rect.collidepoint(event.pos) :
+                            # Exit the title screen procedure
                             is_not_started = False
-                        
+
+                        # Check if the mouse clicked on the end button
                         elif end_button.rect.collidepoint(event.pos) :
+                            # Close the window, exit the program
                             pygame.quit(); sys.exit()
 
         # Draw assets
@@ -110,7 +113,9 @@ while running :
         screen.blit(end_button.image, end_button.rect.topleft)
 
         # Update game display
-        pygame.display.flip()
+        pygame.display.flip() # Can't believe I forgot to add this here
+
+    # ---------------------------------------------------------------------------------------------
 
     # Leveled game loop
     for level in levels : # Body of loop debugged by AI, individual lines of code written by us
@@ -171,6 +176,8 @@ while running :
 
             # Update the game clock
             clock.tick(50)
+
+    # ---------------------------------------------------------------------------------------------
     
     # End screen procedure
     Cutscene.end_screen(screen, total_score)
@@ -178,6 +185,6 @@ while running :
     running = False # End the game loop
 
 # Quit game
-print("\nThank you for playing our game! We hope you enjoyed playing this demo as much as we did making it.\n--Straws Development Team")
+print("\nThank you for playing our game! We hope you enjoyed playing this demo as much as we did making it.\n--Straws Development Team") # Thank-you message from us
 pygame.quit()
 sys.exit()

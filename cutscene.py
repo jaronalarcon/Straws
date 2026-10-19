@@ -14,11 +14,13 @@ SCREEN_HEIGHT = 800
 class Cutscene :
     @staticmethod
     def title_screen() -> tuple :
-        """ Ayaka made most of the functionality for this screen. """
+        """ Ayaka made most of the functionality for this screen.
+            Jaron helped with debugging and cleaning up code. """
+        
         # Background image
         bg = Background("lyon_arboretum_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        # Text
+        # Title text
         title_font = pygame.font.SysFont("Baloo 2", 80)
         title_text = title_font.render("Straws", True, (46, 121, 43))
 
@@ -30,7 +32,9 @@ class Cutscene :
         start_button = Button(SCREEN_WIDTH // 2, 400, start_img)
         end_button = Button(SCREEN_WIDTH // 2, 600, end_img)
 
-        return (bg, title_text, start_button, end_button)
+        # Return screen set
+        return (bg, title_text, start_button, end_button) # We decided to let the main game loop draw the assets for the title screen
+                                                          # because there were problems in doing so here
 
     @staticmethod
     def end_screen(surface, score : int) :
