@@ -6,7 +6,7 @@
 # Check the README.md file for more information about this project.
 
 # Version number
-version = "Beta 1.2.40"
+version = "Beta 1.2.41"
 
 # Module imports
 import pygame, sys
@@ -147,11 +147,11 @@ while running :
             clock.tick(50)
     
     # End screen procedure
-    Cutscene.end_screen(screen)
+    Cutscene.end_screen(screen, total_score)
 
     running = False # End the game loop
 
 # Quit game
-print("Thank you for playing our game! We hope you enjoyed playing this demo as much as we did making it.\n--Straws Development Team")
+print("\nThank you for playing our game! We hope you enjoyed playing this demo as much as we did making it.\n--Straws Development Team")
 pygame.quit()
 sys.exit()

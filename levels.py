@@ -196,18 +196,34 @@ class Level :
         text_group = pygame.sprite.Group(text1)
 
         # Grounds in the level
-        ground1 = Ground(900, 50, 450, 100, "kapolei_ground.png") # x: 0 - 900
-        ground2 = Ground(600, 50, 1300, 250, "kapolei_ground.png") # x: 1000 - 1600
-        ground3 = Ground(500, 50, 1950, 400, "kapolei_ground.png") # x: 1700 - 2200
-        ground4 = Ground(200, 50, 2500, 400, "kapolei_ground.png") # x: 2400 - 2600
-        # Floating islands
-        ground5 = Ground(50, 50, 2825, 450, "kapolei_ground.png") # x: 2800 - 2850
-        ground6 = Ground(50, 50, 3075, 500, "kapolei_ground.png") # x: 3050 - 3100
-        ground7 = Ground(50, 50, 3325, 550, "kapolei_ground.png") # x: 3300 - 3350
-        ground8 = Ground(50, 50, 3575, 600, "kapolei_ground.png") # x: 3550 - 3600
-        # Final goal
-        ground9 = Ground(400, 50, 4050, 800, "kapolei_ground.png") # x: 3850 - 4250
-        ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8, ground9)
+        ground1 = Ground(900, 50, 450, 100, "kapolei_ground.png")   # x: 0 - 900
+        ground2 = Ground(600, 50, 1300, 250, "kapolei_ground.png")  # x: 1000 - 1600
+        ground3 = Ground(500, 50, 1950, 400, "kapolei_ground.png")  # x: 1700 - 2200
+        ground4 = Ground(200, 50, 2500, 400, "kapolei_ground.png")  # x: 2400 - 2600
+        # Floating island staircase
+        ground5 = Ground(50, 50, 2825, 450, "kapolei_ground.png")   # x: 2800 - 2850
+        ground6 = Ground(50, 50, 3075, 500, "kapolei_ground.png")   # x: 3050 - 3100
+        ground7 = Ground(50, 50, 3325, 550, "kapolei_ground.png")   # x: 3300 - 3350
+        ground8 = Ground(50, 50, 3575, 600, "kapolei_ground.png")   # x: 3550 - 3600
+        # Bonus platforms
+        ground9 = Ground(300, 50, 2500, 900, "kapolei_ground.png")  # x: 2350 - 2650
+        ground10 = Ground(300, 50, 3000, 900, "kapolei_ground.png") # x: 2850 - 3150
+        ground11 = Ground(300, 50, 3500, 900, "kapolei_ground.png") # x: 3350 - 3650
+        # Midpoint ground
+        ground12 = Ground(400, 50, 4050, 800, "kapolei_ground.png") # x: 3850 - 4250
+        # First stack
+        ground13 = Ground(400, 50, 4700, 800, "kapolei_ground.png") # x: 4500 - 4900
+        ground14 = Ground(200, 50, 4700, 600, "kapolei_ground.png") # x: 4600 - 4800
+        ground15 = Ground(100, 50, 4700, 400, "kapolei_ground.png") # x: 4650 - 4750
+        # Second stack
+        ground16 = Ground(200, 50, 5100, 400, "kapolei_ground.png") # x: 5000 - 5200
+        ground17 = Ground(100, 50, 5100, 200, "kapolei_ground.png") # x: 5050 - 5150
+        ground18 = Ground(50, 50, 5100, 0, "kapolei_ground.png")    # x: 5075 - 5125
+        # Third stack
+        ground19 = Ground(100, 50, 5425, 0, "kapolei_ground.png")   # x: 5375 - 5475
+        ground20 = Ground(50, 50, 5425, -200, "kapolei_ground.png") # x: 5400 - 5450
+        ground_group = pygame.sprite.Group(ground1, ground2, ground3, ground4, ground5, ground6, ground7, ground8, ground9, ground10,
+                                           ground11, ground12, ground13, ground14, ground15, ground16, ground17, ground18, ground19, ground20)
 
         # Player in the level
         player = Player(ground1)
@@ -241,11 +257,26 @@ class Level :
         coin14 = Collectible(3770, 475)
         coin15 = Collectible(3830, 525)
         coin16 = Collectible(3890, 625)
+        # Hidden coins
+        coin17 = Collectible(2400, 875)
+        coin18 = Collectible(2500, 875)
+        coin19 = Collectible(2600, 875)
+        coin20 = Collectible(2900, 875)
+        coin21 = Collectible(3000, 875)
+        coin22 = Collectible(3100, 875)
+        coin23 = Collectible(3400, 875)
+        coin24 = Collectible(3500, 875)
+        coin25 = Collectible(3600, 875)
+        # Stack coins
+        coin26 = Collectible(4700, 375)
+        coin27 = Collectible(5100, -25)
+        coin28 = Collectible(5425, -225)
         coin_group = pygame.sprite.Group(coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
-                                         coin11, coin12, coin13, coin14, coin15, coin16)
+                                         coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coin19, coin20,
+                                         coin21, coin22, coin23, coin24, coin25, coin26, coin27, coin28)
 
         # Goal in the level
-        goalpost = Goal(4050, 750)
+        goalpost = Goal(5425, -400)
 
         # Return the assets for the level
         return (background, ground_group, player, enemy_group, coin_group, goalpost, text_group)

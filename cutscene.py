@@ -13,9 +13,9 @@ class Cutscene :
     @staticmethod
     def title_screen(surface) :
         pass
-    
+
     @staticmethod
-    def end_screen(surface) :
+    def end_screen(surface, score : int) :
         # Clear screen
         surface.fill((255, 255, 255))
         pygame.display.flip()
@@ -27,6 +27,7 @@ class Cutscene :
         end_text3 = end_font.render("The world which you were once promised,", True, (0, 0, 0))
         end_text4 = end_font.render("some world once forsaken,", True, (0, 0, 0))
         end_text5 = end_font.render("is now a world reborn.", True, (0, 0, 0))
+        end_text6 = end_font.render(f"Score: {score}", True, (0, 0, 0))
 
         # Draw text on screen
         surface.blit(end_text1, (SCREEN_WIDTH // 2 - end_text1.get_width() // 2, 100))
@@ -34,6 +35,7 @@ class Cutscene :
         surface.blit(end_text3, (200, 400))
         surface.blit(end_text4, (500, 450))
         surface.blit(end_text5, (700, 500))
+        surface.blit(end_text6, (SCREEN_WIDTH // 2 - end_text6.get_width() // 2, 700))
 
         # Update the screen to show text
         pygame.display.flip()
