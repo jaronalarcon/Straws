@@ -27,8 +27,8 @@ class Cutscene :
         end_img = pygame.image.load("EndButton.png").convert_alpha()
 
         # Buttons
-        start_button = Button(160, 205, start_img)
-        end_button = Button(205, 320, end_img)
+        start_button = Button(SCREEN_WIDTH // 2, 400, start_img)
+        end_button = Button(SCREEN_WIDTH // 2, 600, end_img)
 
         return (bg, title_text, start_button, end_button)
 

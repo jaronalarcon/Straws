@@ -6,7 +6,7 @@
 # Check the README.md file for more information about this project.
 
 # Version number
-version = "Beta 1.2.48"
+version = "Beta 1.2.50"
 
 # Module imports
 import pygame, sys
@@ -92,7 +92,14 @@ while running :
     is_not_started = True
     while is_not_started :
         for event in pygame.event.get():
+                if event.type == pygame.QUIT :
+                    pygame.quit(); sys.exit()
+                
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    print("Mouse position:", event.pos)
+                    print("Start button:", start_button.rect)
+                    print("End button:", end_button.rect)
+
                     if event.button == 1 :
                         if start_button.rect.collidepoint(event.pos) :
                             print("clicked")
@@ -105,8 +112,12 @@ while running :
         # Draw assets
         screen.blit(bg.image, (0, 0))
         screen.blit(title_text, (500, 100))
-        screen.blit(start_button.image, (160, 205))
-        screen.blit(end_button.image, (205, 320))
+        screen.blit(start_button.image, start_button.rect.center)
+        screen.blit(end_button.image, end_button.rect.center)
+
+        # Truobleshototing
+        screen.fill((0, 0, 255), rect = start_button.rect)
+        screen.fill((255, 0, 0), rect = end_button.rect)
 
         # Update game display
         pygame.display.flip()

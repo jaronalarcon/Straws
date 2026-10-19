@@ -25,11 +25,13 @@ class Button(pygame.sprite.Sprite):
       super().__init__()
       
       # Button attributes
-      width = image.get_width()
-      height = image.get_height()
-      self.image = image
+      self.width = 300
+      self.height = 100
+      self.image = pygame.transform.scale(image, (self.width, self.height))
       self.rect = self.image.get_rect()
-      self.rect.topleft = (x,y)
+      self.rect.width = self.width
+      self.rect.height = self.height
+      self.rect.center = (x, y)
       self.clicked = False
   
   def draw(self):
