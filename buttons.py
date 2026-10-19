@@ -25,8 +25,8 @@ class Button(pygame.sprite.Sprite):
       super().__init__()
       
       # Button attributes
-      self.width = 900
-      self.height = (900 / image.get_width()) * image.get_height()
+      self.width = 600
+      self.height = (self.width / image.get_width()) * image.get_height()
       self.image = pygame.transform.scale(image, (self.width, self.height))
       self.rect = self.image.get_rect()
       self.rect.width = self.width
