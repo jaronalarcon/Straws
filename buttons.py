@@ -25,44 +25,44 @@ clock = pygame.time.Clock()
 
 #button class
 class Button(pygame.sprite.Sprite):
-  #(x,y, width, height) Width- how far from the x-starting pt Height- how far from the y-staeting pt 
-  def __init__(self, x, y, image):
-    # Call parent class constructor
-    super().__init__()
-      
-    # Button attributes
-    self.width = 600
-    self.height = (self.width / image.get_width()) * image.get_height()
-    self.image = pygame.transform.scale(image, (self.width, self.height))
-    self.rect = self.image.get_rect()
-    self.rect.width = self.width
-    self.rect.height = self.height
-    self.rect.center = (x, y)
-    self.clicked = False
-  
-  def draw(self):
-    #action is an variable name so the two buttons can perform different things
-    action = False
+    #(x,y, width, height) Width- how far from the x-starting pt Height- how far from the y-staeting pt 
+    def __init__(self, x, y, image):
+        # Call parent class constructor
+        super().__init__()
         
-    #get mouse position
-    #pos is position
-    pos = pygame.mouse.get_pos()
-
-    #check mouseover and clicked conditions
-    if self.rect.collidepoint(pos):
-        #[0] means mouse left-click, [1] means middle-click, [2] means right-click
-        #Since self.clicked is turned back to true from being false, you can only press the buttons once
-        if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-            self.clicked = True
-            #print("clicked")
-            action = True
-                
-    if pygame.mouse.get_pressed()[0] == 0:
+        # Button attributes
+        self.width = 600
+        self.height = (self.width / image.get_width()) * image.get_height()
+        self.image = pygame.transform.scale(image, (self.width, self.height))
+        self.rect = self.image.get_rect()
+        self.rect.width = self.width
+        self.rect.height = self.height
+        self.rect.center = (x, y)
         self.clicked = False
-        
-    #draw button on screen
-    screen.blit(self.image, (self.rect.x, self.rect.y))
-    return action
+    
+    def draw(self):
+        #action is an variable name so the two buttons can perform different things
+        action = False
+            
+        #get mouse position
+        #pos is position
+        pos = pygame.mouse.get_pos()
+
+        #check mouseover and clicked conditions
+        if self.rect.collidepoint(pos):
+            #[0] means mouse left-click, [1] means middle-click, [2] means right-click
+            #Since self.clicked is turned back to true from being false, you can only press the buttons once
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+                self.clicked = True
+                #print("clicked")
+                action = True
+                    
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
+            
+        #draw button on screen
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+        return action
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------
 # Test code by Ayaka
