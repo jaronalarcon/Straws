@@ -2,6 +2,8 @@
 # Cutscene screens
 
 # Imports
+from background import Background
+from buttons import Button
 import pygame
 from time import sleep
 
@@ -11,8 +13,24 @@ SCREEN_HEIGHT = 800
 
 class Cutscene :
     @staticmethod
-    def title_screen(surface) :
-        pass
+    def title_screen() -> tuple :
+        """ Ayaka made most of the functionality for this screen. """
+        # Background image
+        bg = Background("lyon_arboretum_bg.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        # Text
+        title_font = pygame.font.SysFont("Baloo 2", 80)
+        title_text = title_font.render("Straws", True, (46, 121, 43))
+
+        # Button images
+        start_img = pygame.image.load("StartButton.png").convert_alpha()
+        end_img = pygame.image.load("EndButton.png").convert_alpha()
+
+        # Buttons
+        start_button = Button(160, 205, start_img)
+        end_button = Button(205, 320, end_img)
+
+        return (bg, title_text, start_button, end_button)
 
     @staticmethod
     def end_screen(surface, score : int) :

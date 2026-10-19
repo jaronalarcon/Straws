@@ -1,6 +1,4 @@
 import pygame
-import sys
-import button
 #some info from AI 
 #starting from here, got these info from a pygame beginner tutorial from youtube
 #Initialize Pygame

@@ -6,7 +6,7 @@
 # Check the README.md file for more information about this project.
 
 # Version number
-version = "Beta 1.2.44"
+version = "Beta 1.2.47"
 
 # Module imports
 import pygame, sys
@@ -86,6 +86,31 @@ running = True
 
 # Main game loop
 while running :
+    # Title screen procedure
+    bg, title_text, start_button, end_button = Cutscene.title_screen()
+
+    is_not_started = True
+    while is_not_started :
+        for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1 :
+                        if start_button.rect.collidepoint(event.pos) :
+                            print("clicked")
+                            is_not_started = False
+                        
+                        elif end_button.rect.collidepoint(event.pos) :
+                            print("end game")
+                            pygame.quit(); sys.exit()
+
+        # Draw assets
+        screen.blit(bg.image, (0, 0))
+        screen.blit(title_text, (500, 100))
+        screen.blit(start_button.image, (160, 205))
+        screen.blit(end_button.image, (205, 320))
+
+        # Update game display
+        pygame.display.flip()
+
     # Leveled game loop
     for level in levels : # Body of loop debugged by AI, individual lines of code written by us
         # Get the assets for this level
