@@ -6,7 +6,7 @@
 # Check the README.md file for more information about this project.
 
 # Version number
-version = "Beta 1.2.53"
+version = "Beta 1.2.54"
 
 # Module imports
 import pygame, sys
@@ -98,11 +98,9 @@ while running :
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1 :
                         if start_button.rect.collidepoint(event.pos) :
-                            print("clicked")
                             is_not_started = False
                         
                         elif end_button.rect.collidepoint(event.pos) :
-                            print("end game")
                             pygame.quit(); sys.exit()
 
         # Draw assets
