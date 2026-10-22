@@ -114,7 +114,15 @@ class Enemy(pygame.sprite.Sprite) :
         
         # Kill the player if the player character collides with an enemy
         if pygame.sprite.collide_rect(self, player) :
-            print("NYEH HEH HEH!") if SystemRandom().randint(0, 99) == 0 else print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just it stole the lives of the others.\nWas it ever an escape, or was it delaying the inevitable?") # Easter egg
+            # Print secret death message 1% of the time
+            if SystemRandom().randint(0, 99) == 0 :
+                print("NYEH HEH HEH!") # Easter egg
+
+            # Print standard death message 99% of the time
+            else :
+                print("As you draw your final breath, you feel it leaking into your brain, stealing away your life just it stole the lives of the others.\nWas it ever an escape, or was it delaying the inevitable?")
+
+            # Leave the game and close the window
             pygame.quit(); sys.exit()
 
     def draw(self, surface) :

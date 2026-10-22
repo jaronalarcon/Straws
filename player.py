@@ -164,7 +164,15 @@ class Player(pygame.sprite.Sprite) :
 
         # Death collision
         if self.rect.bottom >= 1000 :
-            print("You fell. Into a hole. How sad.\n") if SystemRandom().randint(0, 9) >= 1 else print("You hear her whisper in your ear: Come on, get up! They're waiting for you!")
+            # Print standard death message 90% of the time
+            if SystemRandom().randint(0, 9) >= 1 :
+                print("You fell. Into a hole. How sad.\n")
+
+            # Print secret death message 10% of the time
+            else :
+                print("You hear her whisper in your ear: Come on, get up! They're waiting for you!")
+
+            # Leave the game and close the window
             pygame.quit(); sys.exit()
 
     def set_score(self, amount : int) -> None :
