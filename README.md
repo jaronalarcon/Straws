@@ -29,7 +29,7 @@ If you are a visitor to this repository, we bid you a warm welcome to our game a
 If your device passes all three of these checks, you can download and open the compressed ```.zip``` file in this repository. After doing so, we recommend doing one more set of checks to ensure the quality of your gaming experience, including the following steps:
 
 - Check that the folder contains all of the executable files and image assets for this game. It is not necessary for this README to be in the folder.
-- Check that the main file has the **Beta 1.2.61** version of *Straws* or later. This README may not always be up-to-date on the version history.
+- Check that the main file has the **Beta 1.2.63** version of *Straws* or later. This README may not always be up-to-date on the version history.
 
 If your download passes these checks as well, your device is finally ready to play this game!
 
