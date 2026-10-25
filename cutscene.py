@@ -62,4 +62,4 @@ class Cutscene :
         # Update the screen to show text
         pygame.display.flip()
 
-        sleep(5) # Pause to let the player read the ending
+        sleep(10) # Pause to let the player read the ending
